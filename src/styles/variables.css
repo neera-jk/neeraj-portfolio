@@ -1,0 +1,54 @@
+:root {
+    /* backgrounds */
+    --bg-primary: #0a0a0f;
+    --bg-card: rgba(255, 255, 255, 0.035);
+
+    /* indigo accent */
+    --accent: #6366f1;
+    --accent-light: #a5b4fc;
+    --accent-dim: rgba(99, 102, 241, 0.1);
+    --accent-border: rgba(99, 102, 241, 0.5);
+    --accent-hover: rgba(99, 102, 241, 0.2);
+
+    /* cyan secondary accent */
+    --accent2: #06b6d4;
+    --accent2-light: #67e8f9;
+    --accent2-dim: rgba(6, 182, 212, 0.1);
+    --accent2-border: rgba(6, 182, 212, 0.3);
+
+    /* text */
+    --text-primary: #f1f0f8;
+    --text-secondary: rgba(232, 230, 240, 0.65);
+    --text-muted: rgba(232, 230, 240, 0.38);
+
+    /* borders */
+    --border: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(99, 102, 241, 0.35);
+
+    /* typography */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Fira Code', 'Cascadia Code', monospace;
+
+    /* font sizes — scales with screen */
+    --fs-xs: clamp(0.7rem, 1.2vw, 0.75rem);
+    --fs-sm: clamp(0.8rem, 1.4vw, 0.875rem);
+    --fs-base: clamp(0.9rem, 1.6vw, 1rem);
+    --fs-md: clamp(1rem, 1.8vw, 1.125rem);
+    --fs-lg: clamp(1.1rem, 2vw, 1.25rem);
+    --fs-xl: clamp(1.25rem, 2.5vw, 1.5rem);
+    --fs-2xl: clamp(1.5rem, 3vw, 2rem);
+    --fs-3xl: clamp(2rem, 5vw, 3rem);
+
+    /* spacing — scales with screen */
+    --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --space-sm: clamp(0.75rem, 2vw, 1rem);
+    --space-md: clamp(1rem, 3vw, 1.5rem);
+    --space-lg: clamp(1.5rem, 4vw, 2.5rem);
+    --space-xl: clamp(2rem, 5vw, 3.5rem);
+
+    /* layout */
+    --section-x: clamp(1rem, 5vw, 2.5rem);
+    --card-radius: clamp(10px, 2vw, 16px);
+    --btn-radius: 8px;
+    --max-width: 900px;
+}
