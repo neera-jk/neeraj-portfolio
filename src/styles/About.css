@@ -1,0 +1,68 @@
+.about {
+    padding: var(--space-xl) var(--section-x);
+    position: relative;
+    z-index: 5;
+}
+
+/* ============ Section label ============ */
+.sec-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sec-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--border);
+}
+
+/* ============ Card ============ */
+.about-card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: clamp(20px, 4vw, 32px);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), rgba(6, 182, 212, 0.3), transparent);
+}
+
+.about-card:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* ============ Text ============ */
+.about-text {
+    font-size: var(--fs-base);
+    line-height: 1.9;
+    color: var(--text-secondary);
+}
+
+.hi {
+    color: var(--accent-light);
+    font-weight: 500;
+}
+
+/* ============ Divider ============ */
+.about-divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 22px 0;
+}

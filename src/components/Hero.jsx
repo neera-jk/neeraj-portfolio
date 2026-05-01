@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import '../styles/Hero.css'
 
 const ROLES = [
-    'frontend engineer & ML enthusiast',
+    'frontend engineer',
     'healthcare tech builder',
-    'react component architect',
-    'ms cs @ northeastern \'26',
+    'ms cs @ northeastern \'27',
     'open to summer 2026 roles',
 ]
 
@@ -45,6 +44,21 @@ function Hero() {
     const [roleIdx, setRoleIdx] = useState(0)
     const [typed, setTyped] = useState('')
     const [phase, setPhase] = useState('typing')
+    const [scrolled, setScrolled] = useState(false)
+
+    const sectionRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start'],
+    })
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+    const heroY = useTransform(scrollYProgress, [0, 0.8], [0, -60])
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 50)
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
 
     useEffect(() => {
         const current = ROLES[roleIdx]
@@ -75,68 +89,80 @@ function Hero() {
     }, [typed, phase, roleIdx])
 
     return (
-        <section className="hero">
-            <MaskReveal delay={0.1}>
-                <div className="hero-eyebrow">
-                    <span className="eyebrow-dot"></span>
-                    Open to summer 2026 internships
-                </div>
-            </MaskReveal>
+        <section className="hero" ref={sectionRef}>
+            <motion.div className="hero-content" style={{ opacity: heroOpacity, y: heroY }}>
+                <MaskReveal delay={0.1}>
+                    <div className="hero-eyebrow">
+                        <span className="eyebrow-dot"></span>
+                        Open to summer 2026 internships
+                    </div>
+                </MaskReveal>
 
-            <MaskReveal delay={0.25}>
-                <div className="hero-greeting">Hi, I'm</div>
-            </MaskReveal>
+                <MaskReveal delay={0.25}>
+                    <div className="hero-greeting">Hi, I'm</div>
+                </MaskReveal>
 
-            <MaskReveal delay={0.4}>
-                <h1 className="hero-name">Neeraj Kumar</h1>
-            </MaskReveal>
+                <MaskReveal delay={0.4}>
+                    <h1 className="hero-name">Neeraj Kumar</h1>
+                </MaskReveal>
 
-            <MaskReveal delay={0.55}>
-                <div className="hero-terminal">
-                    <span className="terminal-prompt">❯</span>
-                    <AnimatePresence mode="wait">
-                        <span key={roleIdx} className="terminal-text">
-                            {typed}
+                <MaskReveal delay={0.55}>
+                    <div className="hero-terminal">
+                        <span className="terminal-prompt">❯</span>
+                        <AnimatePresence mode="wait">
+                            <span key={roleIdx} className="terminal-text">
+                                {typed}
+                            </span>
+                        </AnimatePresence>
+                        <span className="cursor"></span>
+                    </div>
+                </MaskReveal>
+
+                <div className="hero-sub">
+                    {SUB_WORDS.map((w, i) => (
+                        <span key={i} className="word-wrap">
+                            <motion.span
+                                className={`word ${w.accent ? 'accent' : ''}`}
+                                initial={{ opacity: 0, y: 18 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.5,
+                                    delay: 0.7 + i * 0.08,
+                                    ease: [0.22, 1, 0.36, 1],
+                                }}
+                            >
+                                {w.text}
+                            </motion.span>
                         </span>
-                    </AnimatePresence>
-                    <span className="cursor"></span>
+                    ))}
                 </div>
-            </MaskReveal>
 
-            <div className="hero-sub">
-                {SUB_WORDS.map((w, i) => (
-                    <span key={i} className="word-wrap">
-                        <motion.span
-                            className={`word ${w.accent ? 'accent' : ''}`}
-                            initial={{ opacity: 0, y: 18 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                                duration: 0.5,
-                                delay: 0.7 + i * 0.08,
-                                ease: [0.22, 1, 0.36, 1],
-                            }}
-                        >
-                            {w.text}
-                        </motion.span>
-                    </span>
-                ))}
-            </div>
+                <motion.div
+                    className="hero-btns"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <a href="#projects" className="btn-main">View work ↗</a>
+                    <a href="/resume.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M2 9h8M6 1v6M3 5l3 3 3-3" />
+                        </svg>
+                        Download resume
+                    </a>
+                </motion.div>
+            </motion.div>
 
             <motion.div
-                className="hero-btns"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                className="scroll-hint"
+                animate={{ opacity: scrolled ? 0 : 1 }}
+                transition={{ duration: 0.4 }}
             >
-                <a href="#projects" className="btn-main">View work ↗</a>
-                <a href="/resume.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M2 9h8M6 1v6M3 5l3 3 3-3" />
-                    </svg>
-                    Download resume
-                </a>
+                <div className="scroll-hint-line"></div>
+                <div className="scroll-hint-chevron"></div>
+                <span className="scroll-hint-label">scroll</span>
             </motion.div>
-        </section>
+        </section >
     )
 }
 

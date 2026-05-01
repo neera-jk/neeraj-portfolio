@@ -247,3 +247,57 @@
         width: 100%;
     }
 }
+
+/* ============ Scroll hint ============ */
+.scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    animation: bounceY 1.8s ease-in-out infinite;
+}
+
+.scroll-hint-line {
+    width: 0.5px;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(99, 102, 241, 0.6), transparent);
+}
+
+.scroll-hint-chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 0.5px solid rgba(99, 102, 241, 0.6);
+    border-bottom: 0.5px solid rgba(99, 102, 241, 0.6);
+    transform: rotate(45deg);
+    margin-top: -20px;
+}
+
+.scroll-hint-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(99, 102, 241, 0.5);
+    margin-top: 6px;
+}
+
+@keyframes bounceY {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(8px);
+    }
+}
+
+/* ============ Hero content parallax wrapper ============ */
+.hero-content {
+    will-change: transform, opacity;
+}
