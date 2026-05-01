@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-sm) var(--section-x);
+    height: 60px;
+    padding: 0 var(--section-x);
     border-bottom: 0.5px solid var(--border);
     position: sticky;
     top: 0;
