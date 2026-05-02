@@ -1,14 +1,17 @@
 .nav {
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
     padding: 0 var(--section-x);
     border-bottom: 0.5px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--bg-primary);
+    width: 100%;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .nav-logo {
@@ -23,42 +26,17 @@
     color: var(--accent);
 }
 
-.nav-links {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.nav-links a {
+.nav-resume {
     font-size: var(--fs-sm);
-    padding: 6px 14px;
-    border-radius: 6px;
-    color: var(--text-muted);
+    padding: 7px 20px;
+    border-radius: 999px;
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
     text-decoration: none;
-    border: 0.5px solid transparent;
     transition: all 0.18s;
 }
 
-.nav-links a:hover {
-    color: var(--text-secondary);
-    background: var(--accent-dim);
-}
-
-.nav-resume {
-    border-color: rgba(255, 255, 255, 0.15) !important;
-    color: var(--text-secondary) !important;
-    border-radius: 999px !important;
-    padding: 7px 20px !important;
-}
-
 .nav-resume:hover {
-    border-color: rgba(255, 255, 255, 0.25) !important;
-    color: var(--text-primary) !important;
-}
-
-/* collapse nav links on small screens */
-@media (max-width: 600px) {
-    .nav-links a:not(.nav-resume) {
-        display: none;
-    }
+    border-color: rgba(255, 255, 255, 0.25);
+    color: var(--text-primary);
 }

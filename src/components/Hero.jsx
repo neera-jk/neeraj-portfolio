@@ -89,67 +89,102 @@ function Hero() {
     }, [typed, phase, roleIdx])
 
     return (
-        <section className="hero" ref={sectionRef}>
+        <section className="hero" id="hero" ref={sectionRef}>
             <motion.div className="hero-content" style={{ opacity: heroOpacity, y: heroY }}>
-                <MaskReveal delay={0.1}>
-                    <div className="hero-eyebrow">
-                        <span className="eyebrow-dot"></span>
-                        Open to summer 2026 internships
-                    </div>
-                </MaskReveal>
+                <div className="hero-left">
+                    <MaskReveal delay={0.1}>
+                        <div className="hero-eyebrow">
+                            <span className="eyebrow-dot"></span>
+                            Open to summer 2026 internships
+                        </div>
+                    </MaskReveal>
 
-                <MaskReveal delay={0.25}>
-                    <div className="hero-greeting">Hi, I'm</div>
-                </MaskReveal>
+                    <MaskReveal delay={0.25}>
+                        <div className="hero-greeting">Hi, I'm</div>
+                    </MaskReveal>
 
-                <MaskReveal delay={0.4}>
-                    <h1 className="hero-name">Neeraj Kumar</h1>
-                </MaskReveal>
+                    <MaskReveal delay={0.4}>
+                        <h1 className="hero-name">Neeraj Kumar</h1>
+                    </MaskReveal>
 
-                <MaskReveal delay={0.55}>
-                    <div className="hero-terminal">
-                        <span className="terminal-prompt">❯</span>
-                        <AnimatePresence mode="wait">
-                            <span key={roleIdx} className="terminal-text">
-                                {typed}
+                    <MaskReveal delay={0.55}>
+                        <div className="hero-terminal">
+                            <span className="terminal-prompt">❯</span>
+                            <AnimatePresence mode="wait">
+                                <span key={roleIdx} className="terminal-text">
+                                    {typed}
+                                </span>
+                            </AnimatePresence>
+                            <span className="cursor"></span>
+                        </div>
+                    </MaskReveal>
+
+                    <div className="hero-sub">
+                        {SUB_WORDS.map((w, i) => (
+                            <span key={i} className="word-wrap">
+                                <motion.span
+                                    className={`word ${w.accent ? 'accent' : ''}`}
+                                    initial={{ opacity: 0, y: 18 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        delay: 0.7 + i * 0.08,
+                                        ease: [0.22, 1, 0.36, 1],
+                                    }}
+                                >
+                                    {w.text}
+                                </motion.span>
                             </span>
-                        </AnimatePresence>
-                        <span className="cursor"></span>
+                        ))}
                     </div>
-                </MaskReveal>
 
-                <div className="hero-sub">
-                    {SUB_WORDS.map((w, i) => (
-                        <span key={i} className="word-wrap">
-                            <motion.span
-                                className={`word ${w.accent ? 'accent' : ''}`}
-                                initial={{ opacity: 0, y: 18 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: 0.7 + i * 0.08,
-                                    ease: [0.22, 1, 0.36, 1],
-                                }}
-                            >
-                                {w.text}
-                            </motion.span>
-                        </span>
-                    ))}
+                    <motion.div
+                        className="hero-btns"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <a href="#projects" className="btn-main">View work ↗</a>
+                        <a href="/resume.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M2 9h8M6 1v6M3 5l3 3 3-3" />
+                            </svg>
+                            Download resume
+                        </a>
+                    </motion.div>
+
+                    <motion.div
+                        className="hero-socials"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.8 }}
+                    >
+                        <a href="https://github.com/neera-jk" target="_blank" rel="noreferrer" className="social-icon" aria-label="GitHub">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+                        </a>
+                        <a href="https://linkedin.com/in/-neerajkumar-" target="_blank" rel="noreferrer" className="social-icon" aria-label="LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
+                        </a>
+                        <a href="mailto:kumar.nee@northeastern.edu" className="social-icon" aria-label="Email">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+                        </a>
+                    </motion.div>
                 </div>
 
                 <motion.div
-                    className="hero-btns"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="hero-right"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <a href="#projects" className="btn-main">View work ↗</a>
-                    <a href="/resume.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2 9h8M6 1v6M3 5l3 3 3-3" />
-                        </svg>
-                        Download resume
-                    </a>
+                    <div className="avatar-wrap">
+                        <div className="avatar-glow"></div>
+                        <div className="avatar-ring">
+                            <div className="avatar-inner">
+                                <img src="/neeraj_emoji.png" alt="Neeraj" className="avatar-img" />
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
             </motion.div>
 
