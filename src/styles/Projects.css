@@ -1,0 +1,222 @@
+.projects {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-xl) var(--section-x);
+    position: relative;
+    z-index: 5;
+}
+
+/* ============ List ============ */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ============ Card ============ */
+.proj-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+
+.proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.22s;
+}
+
+.proj-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.proj-card:hover::before {
+    opacity: 1;
+}
+
+.proj-card:hover .proj-arrow {
+    transform: translate(2px, -2px);
+    color: var(--accent-light);
+}
+
+/* Flipped layout (image on right) */
+.proj-card--flipped .proj-preview {
+    order: 2;
+}
+
+.proj-card--flipped .proj-info {
+    order: 1;
+}
+
+/* ============ Preview / Image placeholder ============ */
+.proj-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    min-height: 220px;
+}
+
+.proj-browser-frame {
+    width: 100%;
+    max-width: 280px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+}
+
+.proj-browser-dots {
+    display: flex;
+    gap: 5px;
+    padding: 8px 10px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.proj-browser-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.proj-browser-dots span:first-child {
+    background: #ff5f57;
+}
+
+.proj-browser-dots span:nth-child(2) {
+    background: #febc2e;
+}
+
+.proj-browser-dots span:nth-child(3) {
+    background: #28c840;
+}
+
+.proj-browser-content {
+    padding: 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.proj-preview-label {
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ============ Info ============ */
+.proj-info {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ============ Header ============ */
+.proj-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+.proj-title {
+    font-size: var(--fs-md);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.proj-arrow {
+    color: var(--text-muted);
+    transition: all 0.22s;
+    flex-shrink: 0;
+}
+
+/* ============ Type badge ============ */
+.proj-type {
+    font-size: var(--fs-xs);
+    color: var(--accent2);
+    background: var(--accent2-dim);
+    border: 0.5px solid var(--accent2-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+/* ============ Description ============ */
+.proj-desc {
+    font-size: var(--fs-sm);
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 8px;
+}
+
+/* ============ Metric ============ */
+.proj-metric {
+    font-size: var(--fs-xs);
+    color: var(--accent-light);
+    opacity: 0.8;
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* ============ Tags ============ */
+.proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.proj-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    border: 0.5px solid rgba(99, 102, 241, 0.15);
+    color: var(--accent-light);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 768px) {
+    .proj-card {
+        grid-template-columns: 1fr;
+    }
+
+    .proj-card--flipped .proj-preview {
+        order: 0;
+    }
+
+    .proj-card--flipped .proj-info {
+        order: 0;
+    }
+
+    .proj-preview {
+        min-height: 160px;
+    }
+}

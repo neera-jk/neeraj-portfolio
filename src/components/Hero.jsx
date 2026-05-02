@@ -14,10 +14,7 @@ const SUB_WORDS = [
     { text: 'interfaces', accent: true },
     { text: 'that feel' },
     { text: 'good', accent: true },
-    { text: 'to use.' },
-    { text: 'Currently at' },
-    { text: 'LongevAI', accent: true },
-    { text: 'in Boston.' },
+    { text: 'to use.' }
 ]
 
 const TYPE_SPEED = 60
@@ -124,11 +121,11 @@ function Hero() {
                             <span key={i} className="word-wrap">
                                 <motion.span
                                     className={`word ${w.accent ? 'accent' : ''}`}
-                                    initial={{ opacity: 0, y: 18 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
+                                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                                     transition={{
-                                        duration: 0.5,
-                                        delay: 0.7 + i * 0.08,
+                                        duration: 0.6,
+                                        delay: 1.2 + i * 0.18,
                                         ease: [0.22, 1, 0.36, 1],
                                     }}
                                 >
@@ -146,10 +143,11 @@ function Hero() {
                     >
                         <a href="#projects" className="btn-main">View work ↗</a>
                         <a href="/resume.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <path d="M2 9h8M6 1v6M3 5l3 3 3-3" />
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14,2 14,8 20,8" />
                             </svg>
-                            Download resume
+                            View resume
                         </a>
                     </motion.div>
 

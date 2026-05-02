@@ -4,6 +4,11 @@ import SideNav from './components/SideNav'
 import Hero from './components/Hero'
 import About from './components/About'
 import Experience from './components/Experience'
+import Skills from './components/Skills'
+import Projects from './components/Projects'
+import Education from './components/Education'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 function App() {
   const canvasRef = useRef(null)
@@ -25,31 +30,40 @@ function App() {
     let animId;
     let particles = [];
 
+    const dpr = window.devicePixelRatio || 1;
+    let w, h;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     const init = () => {
       resize();
-      particles = Array.from({ length: 140 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+      particles = Array.from({ length: 200 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.5 + 0.4,
-        o: Math.random() * 0.5 + 0.15
+        r: Math.random() * 1.2 + 0.3,
+        o: Math.random() * 0.6 + 0.2
       }));
     };
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, w, h);
+
       particles.forEach(p => {
         p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(165,180,252,${p.o})`;
@@ -59,12 +73,12 @@ function App() {
         for (let j = i + 1; j < particles.length; j++) {
           const q = particles[j];
           const d = Math.sqrt((p.x - q.x) ** 2 + (p.y - q.y) ** 2);
-          if (d < 80) {
+          if (d < 100) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(99,102,241,${0.12 * (1 - d / 80)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(99,102,241,${0.15 * (1 - d / 100)})`;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }
@@ -110,6 +124,11 @@ function App() {
         <Hero />
         <About />
         <Experience />
+        <Skills />
+        <Projects />
+        <Education />
+        <Contact />
+        <Footer />
       </div>
     </div>
   )

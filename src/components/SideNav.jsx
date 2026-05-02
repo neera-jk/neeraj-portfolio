@@ -6,6 +6,7 @@ const SECTIONS = [
     { id: 'experience', label: 'Experience' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
+    { id: 'education', label: 'Education' },
     { id: 'contact', label: 'Contact' },
 ]
 
@@ -23,20 +24,27 @@ function SideNav() {
     }, [])
 
     useEffect(() => {
-        const observers = []
-        SECTIONS.forEach(({ id }) => {
-            const el = document.getElementById(id)
-            if (!el) return
-            const obs = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) setActive(id)
-                },
-                { threshold: 0.3, rootMargin: '0px 0px -50% 0px' }
-            )
-            obs.observe(el)
-            observers.push(obs)
-        })
-        return () => observers.forEach((o) => o.disconnect())
+        const detect = () => {
+            const midY = window.scrollY + window.innerHeight / 2
+            let closest = SECTIONS[0].id
+            let minDist = Infinity
+
+            SECTIONS.forEach(({ id }) => {
+                const el = document.getElementById(id)
+                if (!el) return
+                const top = el.offsetTop
+                const dist = Math.abs(top - midY)
+                if (dist < minDist) {
+                    minDist = dist
+                    closest = id
+                }
+            })
+            setActive(closest)
+        }
+
+        window.addEventListener('scroll', detect, { passive: true })
+        detect()
+        return () => window.removeEventListener('scroll', detect)
     }, [])
 
     return (
