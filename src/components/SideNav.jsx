@@ -26,20 +26,17 @@ function SideNav() {
     useEffect(() => {
         const detect = () => {
             const midY = window.scrollY + window.innerHeight / 2
-            let closest = SECTIONS[0].id
-            let minDist = Infinity
+            let current = SECTIONS[0].id
 
-            SECTIONS.forEach(({ id }) => {
-                const el = document.getElementById(id)
-                if (!el) return
-                const top = el.offsetTop
-                const dist = Math.abs(top - midY)
-                if (dist < minDist) {
-                    minDist = dist
-                    closest = id
+            for (let i = SECTIONS.length - 1; i >= 0; i--) {
+                const el = document.getElementById(SECTIONS[i].id)
+                if (!el) continue
+                if (el.offsetTop <= midY) {
+                    current = SECTIONS[i].id
+                    break
                 }
-            })
-            setActive(closest)
+            }
+            setActive(current)
         }
 
         window.addEventListener('scroll', detect, { passive: true })
@@ -71,15 +68,15 @@ function SideNav() {
                             style={{
                                 width: isActive ? 10 : 6,
                                 height: isActive ? 10 : 6,
-                                background: isActive ? '#6366f1' : 'rgba(255,255,255,0.15)',
-                                boxShadow: isActive ? '0 0 12px rgba(99,102,241,0.6)' : 'none',
+                                background: isActive ? 'var(--accent)' : 'var(--dot-inactive)',
+                                boxShadow: isActive ? '0 0 12px var(--accent-hover)' : 'none',
                             }}
                         />
                         <span
                             className="side-nav-label"
                             style={{
                                 opacity: showLabel ? 1 : 0,
-                                color: isActive ? '#a5b4fc' : 'rgba(232,230,240,0.5)',
+                                color: isActive ? 'var(--accent-light)' : 'var(--dot-label)',
                             }}
                         >
                             {label}

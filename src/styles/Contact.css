@@ -26,7 +26,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.4), rgba(6, 182, 212, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent-border), var(--accent2-border), transparent);
 }
 
 /* ============ Text ============ */
@@ -64,7 +64,7 @@
     padding: 10px 20px;
     border-radius: 8px;
     border: 0.5px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-inset);
     color: var(--text-muted);
     transition: all 0.18s;
     cursor: pointer;

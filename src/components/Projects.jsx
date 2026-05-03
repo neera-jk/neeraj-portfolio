@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useCallback } from 'react'
 import '../styles/Projects.css'
 
 const PROJECTS = [
@@ -32,9 +33,20 @@ const PROJECTS = [
 ]
 
 function Projects() {
+    const handleTiltMove = useCallback((e) => {
+        const el = e.currentTarget
+        const rect = el.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width - 0.5
+        const y = (e.clientY - rect.top) / rect.height - 0.5
+        el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`
+    }, [])
+
+    const handleTiltLeave = useCallback((e) => {
+        e.currentTarget.style.transform = ''
+    }, [])
+
     return (
         <section className="projects" id="projects">
-            <div className="sec-label">selected projects</div>
 
             <div className="projects-list">
                 {PROJECTS.map((p, i) => (
@@ -48,6 +60,8 @@ function Projects() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                         viewport={{ once: true }}
+                        onMouseMove={handleTiltMove}
+                        onMouseLeave={handleTiltLeave}
                     >
                         <div className="proj-preview" style={{ background: p.gradient }}>
                             <div className="proj-browser-frame">

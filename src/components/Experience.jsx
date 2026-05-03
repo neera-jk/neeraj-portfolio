@@ -16,6 +16,8 @@ const ITEMS = [
             { label: 'Figma', cls: 'n' },
         ],
         active: true,
+        logo: 'L',
+        logoColor: '#6366f1',
     },
     {
         role: 'Software Engineering Intern',
@@ -28,6 +30,8 @@ const ITEMS = [
             { label: 'Figma', cls: 'n' },
             { label: 'Python APIs', cls: 'cyan' },
         ],
+        logo: 'L',
+        logoColor: '#06b6d4',
     },
     {
         role: 'Web Developer',
@@ -39,6 +43,8 @@ const ITEMS = [
             { label: 'JavaScript', cls: 'n' },
             { label: 'ChatGPT API', cls: 'cyan' },
         ],
+        logo: 'W',
+        logoColor: '#f59e0b',
     },
     {
         role: 'Software Intern',
@@ -51,13 +57,14 @@ const ITEMS = [
             { label: 'HTML/CSS', cls: 'n' },
             { label: 'SQL', cls: 'n' },
         ],
+        logo: 'C',
+        logoColor: '#3b82f6',
     },
 ]
 
 function Experience() {
     return (
         <section className="experience" id="experience">
-            <div className="sec-label">work experience</div>
 
             <div className="timeline">
                 {ITEMS.map((item, i) => (
@@ -70,11 +77,22 @@ function Experience() {
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.12 }}
                             viewport={{ once: true }}
                         >
-                            <div className="tl-header">
-                                <div className="tl-role">{item.role}</div>
+                            <div className="tl-top">
+                                <div
+                                    className="tl-logo"
+                                    style={{ background: `${item.logoColor}18`, borderColor: `${item.logoColor}40`, color: item.logoColor }}
+                                >
+                                    {item.logo}
+                                </div>
+                                <div className="tl-top-text">
+                                    <div className="tl-header">
+                                        <div className="tl-role">{item.role}</div>
+                                        {item.active && <span className="tl-current">current</span>}
+                                    </div>
+                                    <div className="tl-company">{item.company}</div>
+                                </div>
                                 <div className="tl-date">{item.date}</div>
                             </div>
-                            <div className="tl-company">{item.company}</div>
                             <div className="tl-desc">{item.desc}</div>
                             <div className="tl-tags">
                                 {item.tags.map((t) => (

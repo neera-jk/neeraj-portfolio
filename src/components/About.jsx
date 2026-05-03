@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 import '../styles/About.css'
 
 const fade = (delay = 0) => ({
@@ -16,9 +17,16 @@ const STATS = [
 ]
 
 function About() {
+    const sectionRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start'],
+    })
+    const sidebarY = useTransform(scrollYProgress, [0, 1], [80, -80])
+
     return (
-        <section className="about" id="about">
-            <div className="sec-label">about me</div>
+        <section className="about" id="about" ref={sectionRef}>
+
 
             <div className="about-grid">
                 <motion.div
@@ -85,7 +93,7 @@ function About() {
                     </motion.div>
                 </motion.div>
 
-                <div className="about-sidebar">
+                <motion.div className="about-sidebar" style={{ y: sidebarY }}>
                     {STATS.map((s, i) => (
                         <motion.div
                             className="stat-card"
@@ -99,7 +107,7 @@ function About() {
                             <span className="stat-label">{s.label}</span>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     )

@@ -9,7 +9,7 @@
     top: 0;
     z-index: 100;
     width: 100%;
-    background: rgba(10, 10, 15, 0.85);
+    background: var(--nav-bg, rgba(10, 10, 15, 0.85));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 }
@@ -19,6 +19,8 @@
     font-weight: 500;
     color: var(--text-primary);
     letter-spacing: -0.01em;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-logo em {
@@ -30,13 +32,62 @@
     font-size: var(--fs-sm);
     padding: 7px 20px;
     border-radius: 999px;
-    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    border: 0.5px solid var(--border);
     color: var(--text-secondary);
     text-decoration: none;
     transition: all 0.18s;
 }
 
 .nav-resume:hover {
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: var(--border-hover);
     color: var(--text-primary);
+}
+
+/* ============ Nav right group ============ */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ============ Theme toggle ============ */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.22s;
+}
+
+.theme-toggle:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    background: var(--accent-dim);
+}
+
+/* ============ Section indicator ============ */
+.nav-section {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.35s ease;
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+}
+
+.nav-section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }

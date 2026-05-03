@@ -72,7 +72,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-inset);
     border: 0.5px solid var(--border);
 }
 

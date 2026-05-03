@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 import '../styles/Education.css'
 
 const fade = (delay = 0) => ({
@@ -9,9 +10,15 @@ const fade = (delay = 0) => ({
 })
 
 function Education() {
+    const sectionRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start'],
+    })
+    const pubY = useTransform(scrollYProgress, [0, 1], [80, -60])
+
     return (
-        <section className="education" id="education">
-            <div className="sec-label">education</div>
+        <section className="education" id="education" ref={sectionRef}>
 
             <div className="edu-grid">
                 <motion.div className="edu-card" {...fade(0)}>
@@ -31,7 +38,7 @@ function Education() {
                 </motion.div>
             </div>
 
-            <motion.div className="pub-card" {...fade(0.2)}>
+            <motion.div className="pub-card" {...fade(0.2)} style={{ y: pubY }}>
                 <span className="edu-badge pub">Publication</span>
                 <div className="pub-title">Fuzzy-Based Hierarchical Routing Protocol for Wireless Sensor Networks</div>
                 <div className="pub-publisher">Springer — Sustainable Computing</div>

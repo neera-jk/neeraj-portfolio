@@ -100,7 +100,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: #12121e;
+    background: var(--bg-primary);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -119,24 +119,24 @@
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: #0d0d18;
-    border: 0.5px solid rgba(52, 211, 153, 0.35);
+    background: var(--bg-primary);
+    border: 0.5px solid var(--green-border, rgba(52, 211, 153, 0.35));
     border-radius: 20px;
     padding: 5px 14px;
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 11px;
-    color: #34d399;
+    color: var(--green, #34d399);
     white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .status-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #34d399;
+    background: var(--green, #34d399);
     animation: pulse 1.5s ease-in-out infinite;
     flex-shrink: 0;
 }
@@ -201,7 +201,7 @@
     letter-spacing: -0.04em;
     line-height: 1.05;
     margin-bottom: var(--space-sm);
-    color: #f1f0f8;
+    color: var(--text-primary);
     display: inline-block;
 }
 
@@ -302,7 +302,7 @@
 
 .btn-main:hover {
     background: var(--accent-hover);
-    border-color: rgba(99, 102, 241, 0.7);
+    border-color: var(--accent-border);
     transform: translateY(-4px);
     box-shadow: 0 10px 24px -8px rgba(99, 102, 241, 0.2);
 }
@@ -338,7 +338,7 @@
 }
 
 .social-icon {
-    color: rgba(232, 230, 240, 0.35);
+    color: var(--text-muted);
     transition: all 0.2s ease;
     display: flex;
     align-items: center;

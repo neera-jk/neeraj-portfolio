@@ -1,0 +1,48 @@
+/* ============ Spotlight overlay ============ */
+.cursor-spotlight {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ============ 5. Ripple click ============ */
+.click-ripple {
+    position: fixed;
+    width: 0;
+    height: 0;
+    border: 1.5px solid var(--accent-border);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: rippleExpand 0.6s ease-out forwards;
+}
+
+@keyframes rippleExpand {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+}
+
+/* ============ Hide on touch / mobile ============ */
+@media (hover: none),
+(pointer: coarse) {
+
+    * {
+        cursor: auto !important;
+    }
+
+    .cursor-spotlight,
+    .click-ripple {
+        display: none !important;
+    }
+}

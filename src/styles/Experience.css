@@ -21,7 +21,7 @@
     top: 6px;
     bottom: 0;
     width: 0.5px;
-    background: linear-gradient(to bottom, rgba(99, 102, 241, 0.4), rgba(6, 182, 212, 0.2), transparent);
+    background: linear-gradient(to bottom, var(--accent-border), var(--accent2-border), transparent);
 }
 
 /* ============ Timeline item ============ */
@@ -37,7 +37,7 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    border: 0.5px solid rgba(99, 102, 241, 0.4);
+    border: 0.5px solid var(--accent-border);
     background: var(--bg-primary);
     transition: all 0.3s;
 }
@@ -45,12 +45,12 @@
 .tl-dot.active {
     background: var(--accent);
     border-color: var(--accent);
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 12px var(--accent-hover);
 }
 
 .tl-item:hover .tl-dot {
-    background: rgba(99, 102, 241, 0.3);
-    border-color: rgba(99, 102, 241, 0.6);
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
 }
 
 /* ============ Card ============ */
@@ -72,13 +72,13 @@
     left: 0;
     right: 0;
     height: 0.5px;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent-border), transparent);
     opacity: 0;
     transition: opacity 0.25s;
 }
 
 .tl-item:hover .tl-card {
-    border-color: rgba(99, 102, 241, 0.2);
+    border-color: var(--accent-hover);
     transform: translateX(4px);
 }
 
@@ -87,12 +87,36 @@
 }
 
 /* ============ Card content ============ */
+.tl-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.tl-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.tl-top-text {
+    flex: 1;
+    min-width: 0;
+}
+
 .tl-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 4px;
-    gap: 16px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
 }
 
 .tl-role {
@@ -101,18 +125,34 @@
     color: var(--text-primary);
 }
 
+.tl-current {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--green-dim);
+    border: 0.5px solid var(--green-border);
+    color: var(--green);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 .tl-date {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-muted);
     white-space: nowrap;
     padding-top: 2px;
     flex-shrink: 0;
+    background: var(--bg-inset);
+    border: 0.5px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 4px;
 }
 
 .tl-company {
     font-size: 13px;
     color: var(--accent-light);
-    margin-bottom: 10px;
     opacity: 0.85;
 }
 
@@ -135,18 +175,18 @@
     padding: 3px 9px;
     border-radius: 4px;
     background: var(--accent-dim);
-    border: 0.5px solid rgba(99, 102, 241, 0.15);
-    color: rgba(165, 180, 252, 0.7);
+    border: 0.5px solid var(--accent-border);
+    color: var(--accent-light);
 }
 
 .tl-tag.cyan {
     background: var(--accent2-dim);
-    border-color: rgba(6, 182, 212, 0.15);
-    color: rgba(103, 232, 249, 0.7);
+    border-color: var(--accent2-border);
+    color: var(--accent2-light);
 }
 
 .tl-tag.n {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-inset);
     border-color: var(--border);
     color: var(--text-muted);
 }

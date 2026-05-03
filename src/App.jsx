@@ -9,6 +9,7 @@ import Projects from './components/Projects'
 import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import CursorEffects from './components/CursorEffects'
 
 function App() {
   const canvasRef = useRef(null)
@@ -57,6 +58,9 @@ function App() {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light'
+      const dotColor = isLight ? '79,70,229' : '165,180,252'
+      const lineColor = isLight ? '79,70,229' : '99,102,241'
 
       particles.forEach(p => {
         p.x += p.vx; p.y += p.vy;
@@ -66,7 +70,8 @@ function App() {
         if (p.y > h) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(165,180,252,${p.o})`;
+        ctx.fillStyle = `rgba(${dotColor},${p.o})`;
+        ctx.fill();
         ctx.fill();
       });
       particles.forEach((p, i) => {
@@ -77,7 +82,7 @@ function App() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(99,102,241,${0.15 * (1 - d / 100)})`;
+            ctx.strokeStyle = `rgba(${lineColor},${0.15 * (1 - d / 100)})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -108,18 +113,10 @@ function App() {
         opacity: canvasOpacity,
         transition: 'opacity 0.15s ease-out',
       }} />
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1,
-        pointerEvents: 'none',
-        backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.16) 1px, transparent 1px)',
-        backgroundSize: '26px 26px',
-        WebkitMaskImage: 'radial-gradient(ellipse 50% 80% at 80% 50%, black 0%, transparent 70%)',
-        maskImage: 'radial-gradient(ellipse 50% 80% at 80% 50%, black 0%, transparent 70%)',
-      }} />
+      <div className="dot-grid" />
       <SideNav />
       <Nav />
+      <CursorEffects />
       <div className="page-wrapper">
         <Hero />
         <About />

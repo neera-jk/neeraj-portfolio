@@ -37,9 +37,14 @@ function Skills() {
 
     return (
         <section className="skills" id="skills">
-            <div className="sec-label">skills & technologies</div>
 
-            <div className="skills-tabs">
+            <motion.div
+                className="skills-tabs"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+            >
                 {TABS.map(t => (
                     <button
                         key={t.key}
@@ -49,7 +54,7 @@ function Skills() {
                         {t.label}
                     </button>
                 ))}
-            </div>
+            </motion.div>
 
             <div className="skills-grid">
                 {filtered.map((s, i) => (
@@ -69,7 +74,13 @@ function Skills() {
                 ))}
             </div>
 
-            <div className="marquee-wrap">
+            <motion.div
+                className="marquee-wrap"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                viewport={{ once: true }}
+            >
                 <div className="marquee-track">
                     {marqueeSkills.map((s, i) => (
                         <span className="marquee-item" key={i}>
@@ -78,7 +89,7 @@ function Skills() {
                         </span>
                     ))}
                 </div>
-            </div>
+            </motion.div>
         </section>
     )
 }

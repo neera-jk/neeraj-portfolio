@@ -50,7 +50,6 @@ const LINKS = [
 function Contact() {
     return (
         <section className="contact" id="contact">
-            <div className="sec-label">get in touch</div>
 
             <motion.div
                 className="contact-card"

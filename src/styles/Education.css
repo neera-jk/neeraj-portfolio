@@ -37,7 +37,7 @@
     text-transform: uppercase;
     color: var(--accent-light);
     background: var(--accent-dim);
-    border: 0.5px solid rgba(99, 102, 241, 0.2);
+    border: 0.5px solid var(--accent-border);
     padding: 2px 9px;
     border-radius: 4px;
     display: inline-block;
@@ -51,9 +51,9 @@
 }
 
 .edu-badge.pub {
-    color: #34d399;
-    background: rgba(52, 211, 153, 0.08);
-    border-color: rgba(52, 211, 153, 0.2);
+    color: var(--green);
+    background: var(--green-dim);
+    border-color: var(--green-border);
 }
 
 /* ============ Text ============ */
@@ -98,7 +98,7 @@
 }
 
 .pub-card:hover {
-    border-color: rgba(52, 211, 153, 0.2);
+    border-color: var(--green-border);
 }
 
 .pub-title {
@@ -110,7 +110,7 @@
 
 .pub-publisher {
     font-size: var(--fs-sm);
-    color: #34d399;
+    color: var(--green);
     margin-bottom: 8px;
     opacity: 0.8;
 }
@@ -132,9 +132,9 @@
     font-size: 10px;
     padding: 2px 8px;
     border-radius: 4px;
-    background: rgba(52, 211, 153, 0.06);
-    border: 0.5px solid rgba(52, 211, 153, 0.15);
-    color: #34d399;
+    background: var(--green-dim);
+    border: 0.5px solid var(--green-border);
+    color: var(--green);
 }
 
 /* ============ Responsive ============ */
