@@ -11,7 +11,7 @@ const SECTIONS = [
     { id: 'contact', label: 'Get in Touch' },
 ]
 
-function Nav() {
+function Nav({ showLogo = true }) {
     const [section, setSection] = useState('Home')
     const [pastHero, setPastHero] = useState(false)
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
@@ -66,7 +66,7 @@ function Nav() {
 
     return (
         <nav className="nav">
-            <a href="#hero" className="nav-logo">
+            <a href="#hero" className="nav-logo" style={{ opacity: showLogo ? 1 : 0, transition: 'opacity 0.15s ease' }}>
                 nk<em>.</em>
             </a>
             <div className={`nav-section${pastHero ? ' visible' : ''}`}>

@@ -1,0 +1,65 @@
+/* ============ Splash overlay ============ */
+.splash {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+}
+
+.splash.flying {
+    background: transparent;
+    pointer-events: none;
+    animation: fadeBg 0.5s ease forwards;
+}
+
+@keyframes fadeBg {
+    to {
+        background: transparent;
+    }
+}
+
+/* ============ Logo container ============ */
+.splash-logo {
+    display: flex;
+    align-items: baseline;
+    will-change: transform;
+    transform: scale(4);
+    z-index: 10001;
+}
+
+/* ============ Text styling — matches nav-logo exactly ============ */
+.splash-text {
+    font-family: var(--font-sans);
+    font-size: var(--fs-md);
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    animation: revealText 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.splash-text:first-child {
+    animation-delay: 0.15s;
+}
+
+.splash-accent {
+    color: var(--accent);
+    animation-delay: 0.55s;
+}
+
+/* Idle phase — fully revealed */
+.splash.idle .splash-text,
+.splash.flying .splash-text {
+    clip-path: inset(0 0 0 0);
+    animation: none;
+}
+
+@keyframes revealText {
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}

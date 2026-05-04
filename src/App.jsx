@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import Nav from './components/Nav'
 import SideNav from './components/SideNav'
 import Hero from './components/Hero'
@@ -10,10 +10,16 @@ import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import CursorEffects from './components/CursorEffects'
+import Splash from './components/Splash'
 
 function App() {
   const canvasRef = useRef(null)
   const [canvasOpacity, setCanvasOpacity] = useState(1)
+  const [splashDone, setSplashDone] = useState(false)
+  const [showNavLogo, setShowNavLogo] = useState(false)
+
+  const handleSplashComplete = useCallback(() => setSplashDone(true), [])
+  const handleLogoLanded = useCallback(() => setShowNavLogo(true), [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -103,6 +109,7 @@ function App() {
 
   return (
     <div style={{ position: 'relative' }}>
+      {!splashDone && <Splash onComplete={handleSplashComplete} onLogoLanded={handleLogoLanded} />}
       <canvas ref={canvasRef} style={{
         position: 'fixed',
         inset: 0,
@@ -115,7 +122,7 @@ function App() {
       }} />
       <div className="dot-grid" />
       <SideNav />
-      <Nav />
+      <Nav showLogo={showNavLogo} />
       <CursorEffects />
       <div className="page-wrapper">
         <Hero />
