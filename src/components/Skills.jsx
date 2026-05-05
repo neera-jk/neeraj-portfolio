@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Skills.css'
 
 const SKILLS = [
@@ -29,8 +29,6 @@ const TABS = [
     { key: 'tools', label: 'Tools' },
 ]
 
-const marqueeSkills = [...SKILLS, ...SKILLS]
-
 function Skills() {
     const [active, setActive] = useState('all')
     const filtered = active === 'all' ? SKILLS : SKILLS.filter(s => s.cat === active)
@@ -56,40 +54,31 @@ function Skills() {
                 ))}
             </motion.div>
 
-            <div className="skills-grid">
-                {filtered.map((s, i) => (
-                    <motion.div
-                        className="skill-card"
-                        key={s.name}
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                        viewport={{ once: true }}
-                    >
-                        <div className="skill-icon">
-                            <img src={s.logo} alt={s.name} />
-                        </div>
-                        <span className="skill-name">{s.name}</span>
-                    </motion.div>
-                ))}
-            </div>
-
-            <motion.div
-                className="marquee-wrap"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                viewport={{ once: true }}
-            >
-                <div className="marquee-track">
-                    {marqueeSkills.map((s, i) => (
-                        <span className="marquee-item" key={i}>
-                            <img src={s.logo} alt={s.name} />
-                            {s.name}
-                        </span>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    className="skills-grid"
+                    key={active}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    {filtered.map((s, i) => (
+                        <motion.div
+                            className="skill-card"
+                            key={s.name}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: i * 0.03, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            <div className="skill-icon">
+                                <img src={s.logo} alt={s.name} />
+                            </div>
+                            <span className="skill-name">{s.name}</span>
+                        </motion.div>
                     ))}
-                </div>
-            </motion.div>
+                </motion.div>
+            </AnimatePresence>
         </section>
     )
 }
