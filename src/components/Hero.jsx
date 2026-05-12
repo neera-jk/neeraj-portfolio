@@ -3,10 +3,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import '../styles/Hero.css'
 
 const ROLES = [
+    'ms cs @ northeastern \'27',
     'frontend engineer',
     'healthcare tech builder',
-    'ms cs @ northeastern \'27',
-    'open to summer 2026 roles',
 ]
 
 const SUB_WORDS = [

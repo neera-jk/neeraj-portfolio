@@ -39,7 +39,14 @@
     letter-spacing: -0.01em;
     display: inline-block;
     clip-path: inset(0 100% 0 0);
+    will-change: clip-path;
     animation: revealText 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Keep text hidden until fonts are loaded */
+.splash.waiting .splash-text {
+    animation: none;
+    clip-path: inset(0 100% 0 0);
 }
 
 .splash-text:first-child {

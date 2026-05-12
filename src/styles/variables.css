@@ -30,14 +30,14 @@
     --font-mono: 'Fira Code', 'Cascadia Code', monospace;
 
     /* font sizes — scales with screen */
-    --fs-xs: clamp(0.7rem, 1.2vw, 0.75rem);
-    --fs-sm: clamp(0.8rem, 1.4vw, 0.875rem);
-    --fs-base: clamp(0.9rem, 1.6vw, 1rem);
-    --fs-md: clamp(1rem, 1.8vw, 1.125rem);
-    --fs-lg: clamp(1.1rem, 2vw, 1.25rem);
-    --fs-xl: clamp(1.25rem, 2.5vw, 1.5rem);
-    --fs-2xl: clamp(1.5rem, 3vw, 2rem);
-    --fs-3xl: clamp(2rem, 5vw, 3rem);
+    --fs-xs: clamp(0.75rem, 1.2vw, 0.85rem);
+    --fs-sm: clamp(0.85rem, 1.4vw, 0.95rem);
+    --fs-base: clamp(0.95rem, 1.6vw, 1.1rem);
+    --fs-md: clamp(1.05rem, 1.8vw, 1.25rem);
+    --fs-lg: clamp(1.2rem, 2vw, 1.4rem);
+    --fs-xl: clamp(1.4rem, 2.5vw, 1.7rem);
+    --fs-2xl: clamp(1.65rem, 3vw, 2.25rem);
+    --fs-3xl: clamp(2.25rem, 5vw, 3.25rem);
 
     /* spacing — scales with screen */
     --space-xs: clamp(0.5rem, 1vw, 0.75rem);

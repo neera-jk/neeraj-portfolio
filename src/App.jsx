@@ -31,6 +31,7 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (!splashDone) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -62,38 +63,57 @@ function App() {
       }));
     };
 
+    let cachedTheme = document.documentElement.getAttribute('data-theme');
+    let dotColor = cachedTheme === 'light' ? '79,70,229' : '165,180,252';
+    let lineColor = cachedTheme === 'light' ? '79,70,229' : '99,102,241';
+
+    const observer = new MutationObserver(() => {
+      cachedTheme = document.documentElement.getAttribute('data-theme');
+      dotColor = cachedTheme === 'light' ? '79,70,229' : '165,180,252';
+      lineColor = cachedTheme === 'light' ? '79,70,229' : '99,102,241';
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    const LINK_DIST = 100;
+    const LINK_DIST_SQ = LINK_DIST * LINK_DIST;
+    const TWO_PI = Math.PI * 2;
+
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light'
-      const dotColor = isLight ? '79,70,229' : '165,180,252'
-      const lineColor = isLight ? '79,70,229' : '99,102,241'
 
-      particles.forEach(p => {
+      // -- update positions & draw dots in one batched path per opacity group --
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         p.x += p.vx; p.y += p.vy;
         if (p.x < 0) p.x = w;
         if (p.x > w) p.x = 0;
         if (p.y < 0) p.y = h;
         if (p.y > h) p.y = 0;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.r, 0, TWO_PI);
         ctx.fillStyle = `rgba(${dotColor},${p.o})`;
         ctx.fill();
-        ctx.fill();
-      });
-      particles.forEach((p, i) => {
+      }
+
+      // -- draw connecting lines: compare squared distances, batch by opacity --
+      ctx.lineWidth = 0.6;
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
           const q = particles[j];
-          const d = Math.sqrt((p.x - q.x) ** 2 + (p.y - q.y) ** 2);
-          if (d < 100) {
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < LINK_DIST_SQ) {
+            const alpha = 0.15 * (1 - Math.sqrt(distSq) / LINK_DIST);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(${lineColor},${0.15 * (1 - d / 100)})`;
-            ctx.lineWidth = 0.6;
+            ctx.strokeStyle = `rgba(${lineColor},${alpha})`;
             ctx.stroke();
           }
         }
-      });
+      }
       animId = requestAnimationFrame(draw);
     };
 
@@ -103,9 +123,10 @@ function App() {
 
     return () => {
       cancelAnimationFrame(animId);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
     };
-  }, [])
+  }, [splashDone])
 
   return (
     <div style={{ position: 'relative' }}>

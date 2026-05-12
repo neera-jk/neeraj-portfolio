@@ -2,10 +2,21 @@ import { useState, useEffect, useRef } from 'react'
 import '../styles/Splash.css'
 
 function Splash({ onComplete, onLogoLanded }) {
-    const [phase, setPhase] = useState('revealing') // revealing → idle → flying → done
+    const [phase, setPhase] = useState('waiting') // waiting → revealing → idle → flying → done
+    const [fontsReady, setFontsReady] = useState(false)
     const logoRef = useRef(null)
 
+    // Wait for fonts before starting any animation
     useEffect(() => {
+        document.fonts.ready.then(() => {
+            setFontsReady(true)
+            setPhase('revealing')
+        })
+    }, [])
+
+    useEffect(() => {
+        if (!fontsReady) return
+
         const idleTimer = setTimeout(() => setPhase('idle'), 900)
 
         const flyTimer = setTimeout(() => {
@@ -45,7 +56,7 @@ function Splash({ onComplete, onLogoLanded }) {
             clearTimeout(flyTimer)
             clearTimeout(doneTimer)
         }
-    }, [onComplete, onLogoLanded])
+    }, [fontsReady, onComplete, onLogoLanded])
 
     if (phase === 'done') return null
 

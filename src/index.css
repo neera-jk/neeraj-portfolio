@@ -1,7 +1,5 @@
 @import './styles/variables.css';
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap');
-
 /* dark-theme defaults for theme-adaptive vars */
 :root {
   --glass-bg: rgba(255, 255, 255, 0.03);
