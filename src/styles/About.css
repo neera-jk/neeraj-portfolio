@@ -32,7 +32,7 @@
     background: var(--bg-card);
     border: 0.5px solid var(--border);
     border-radius: var(--card-radius);
-    padding: clamp(20px, 4vw, 32px);
+    padding: clamp(28px, 5vw, 44px);
     position: relative;
     overflow: hidden;
     transition: border-color 0.3s;
@@ -54,7 +54,7 @@
 
 /* ============ Text ============ */
 .about-text {
-    font-size: var(--fs-base);
+    font-size: var(--fs-md);
     line-height: 1.9;
     color: var(--text-secondary);
 }
@@ -68,67 +68,11 @@
 .about-divider {
     height: 0.5px;
     background: var(--border);
-    margin: 22px 0;
+    margin: 26px 0;
 }
 
 /* ============ Grid layout ============ */
 .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    gap: 20px;
-    align-items: start;
-}
-
-/* ============ Sidebar stats ============ */
-.about-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.stat-card {
-    background: var(--bg-card);
-    border: 0.5px solid var(--border);
-    border-radius: var(--card-radius);
-    padding: 18px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    transition: border-color 0.3s;
-}
-
-.stat-card:hover {
-    border-color: var(--accent-hover);
-}
-
-.stat-value {
-    font-size: var(--fs-xl);
-    font-weight: 700;
-    color: var(--accent-light);
-    line-height: 1.2;
-}
-
-.stat-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-}
-
-/* ============ Responsive ============ */
-@media (max-width: 768px) {
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .about-sidebar {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .about-sidebar {
-        grid-template-columns: 1fr 1fr;
-    }
+    max-width: 720px;
+    margin: 0 auto;
 }

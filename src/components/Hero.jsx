@@ -5,7 +5,7 @@ import '../styles/Hero.css'
 const ROLES = [
     'ms cs @ northeastern \'27',
     'frontend engineer',
-    'healthcare tech builder',
+    'focused on healthtech UX',
 ]
 
 const SUB_WORDS = [
@@ -190,8 +190,9 @@ function Hero() {
                 animate={{ opacity: scrolled ? 0 : 1 }}
                 transition={{ duration: 0.4 }}
             >
-                <div className="scroll-hint-line"></div>
-                <div className="scroll-hint-chevron"></div>
+                <div className="scroll-mouse">
+                    <div className="scroll-mouse-wheel"></div>
+                </div>
                 <span className="scroll-hint-label">scroll</span>
             </motion.div>
         </section >

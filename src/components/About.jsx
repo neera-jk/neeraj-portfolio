@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import '../styles/About.css'
 
@@ -9,20 +9,8 @@ const fade = (delay = 0) => ({
     transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] },
 })
 
-const STATS = [
-    { value: '2+', label: 'Years experience' },
-    { value: '10+', label: 'Projects shipped' },
-    { value: '6k+', label: 'Lines contributed' },
-    { value: 'MS CS', label: 'Northeastern \'27' },
-]
-
 function About() {
     const sectionRef = useRef(null)
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start end', 'end start'],
-    })
-    const sidebarY = useTransform(scrollYProgress, [0, 1], [80, -80])
 
     return (
         <section className="about" id="about" ref={sectionRef}>
@@ -64,7 +52,7 @@ function About() {
                     </div>
                     <motion.div {...fade(0)}>
                         <p className="about-text">
-                            I'm a CS grad student at Northeastern who somehow went from
+                            I'm a CS grad student at Northeastern who went from
                             studying <span className="hi">radio waves in Bangalore</span> to
                             building <span className="hi">healthcare dashboards in Boston</span>.
                         </p>
@@ -74,11 +62,11 @@ function About() {
 
                     <motion.div {...fade(0.15)}>
                         <p className="about-text">
-                            My focus is <span className="hi">frontend development</span>. I
-                            build interfaces that feel good to use and keep my code clean
-                            enough that the next person doesn't hate me for it. I've done
-                            real work at <span className="hi">LongevAI</span> and{' '}
-                            <span className="hi">Latitude Health</span>, both in healthtech.
+                            Frontend is where I do my best work. I've spent two internships
+                            in healthtech building <span className="hi">React interfaces</span> used
+                            by clinicians and care managers, and I take both
+                            the <span className="hi">craft</span> and
+                            the <span className="hi">codebase</span> seriously.
                         </p>
                     </motion.div>
 
@@ -86,27 +74,12 @@ function About() {
 
                     <motion.div {...fade(0.3)}>
                         <p className="about-text">
-                            Looking for summer 2026 internships where I can contribute from
-                            day one and occasionally <span className="hi">push back</span>{' '}
-                            when something could be built better.
+                            I'm looking for <span className="hi">frontend or full-stack roles</span> where
+                            I can contribute from day one. Healthtech is where I've built my
+                            experience, but good <span className="hi">engineering problems</span> exist
+                            everywhere.
                         </p>
                     </motion.div>
-                </motion.div>
-
-                <motion.div className="about-sidebar" style={{ y: sidebarY }}>
-                    {STATS.map((s, i) => (
-                        <motion.div
-                            className="stat-card"
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                            viewport={{ once: true }}
-                        >
-                            <span className="stat-value">{s.value}</span>
-                            <span className="stat-label">{s.label}</span>
-                        </motion.div>
-                    ))}
                 </motion.div>
             </div>
         </section>

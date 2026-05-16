@@ -6,100 +6,82 @@ const ITEMS = [
         role: 'AI Developer Intern',
         date: 'Feb 2026 – present',
         company: 'LongevAI Inc.',
-        desc: 'Building a full-stack geriatric health platform with React, Next.js and Node.js. Overhauled 5 role-based dashboards and cataloged 106 bugs used as the team\'s primary QA reference.',
+        desc: 'Full-stack geriatric health platform. Overhauled 5 role-based dashboards and cataloged 106+ bugs as the team\'s QA reference.',
         tags: [
             { label: 'React' },
             { label: 'Next.js' },
             { label: 'Node.js' },
             { label: 'GraphQL', cls: 'cyan' },
-            { label: 'REST APIs', cls: 'cyan' },
-            { label: 'Figma', cls: 'n' },
         ],
         active: true,
-        logo: 'L',
-        logoColor: '#6366f1',
     },
     {
         role: 'Software Engineering Intern',
         date: 'May – Aug 2024',
         company: 'Latitude Health',
-        desc: 'Built a UM Reviewer dashboard end-to-end from Figma to production. Designed 9 reusable React components and delivered 4 user-facing pages including SSO login ahead of first client onboarding.',
+        desc: 'Built a UM Reviewer dashboard end-to-end. Designed 9 reusable components and shipped 4 pages including SSO login.',
         tags: [
             { label: 'React' },
             { label: 'JavaScript' },
             { label: 'Figma', cls: 'n' },
             { label: 'Python APIs', cls: 'cyan' },
         ],
-        logo: 'L',
-        logoColor: '#06b6d4',
     },
     {
         role: 'Web Developer',
         date: 'Oct 2022 – Nov 2023',
-        company: 'Wyoming Global Research World Pvt. Ltd.',
-        desc: 'Built a ChatGPT-powered chatbot to automate student queries for educational websites. Evaluated 3 chatbot frameworks and recommended the top performer for production.',
+        company: 'Wyoming Global Research',
+        desc: 'Built a ChatGPT-powered chatbot to automate student queries. Evaluated 3 frameworks and shipped the top performer.',
         tags: [
             { label: 'WordPress' },
             { label: 'JavaScript', cls: 'n' },
             { label: 'ChatGPT API', cls: 'cyan' },
         ],
-        logo: 'W',
-        logoColor: '#f59e0b',
     },
     {
         role: 'Software Intern',
         date: 'Apr – Aug 2022',
         company: 'Cognizant',
-        desc: 'Developed automated test suites using Selenium and Java to validate UI and data integrity across 4 landing pages for 3 client projects.',
+        desc: 'Automated test suites with Selenium and Java across 4 landing pages for 3 client projects.',
         tags: [
             { label: 'Selenium', cls: 'n' },
             { label: 'Java', cls: 'n' },
-            { label: 'HTML/CSS', cls: 'n' },
             { label: 'SQL', cls: 'n' },
         ],
-        logo: 'C',
-        logoColor: '#3b82f6',
     },
 ]
 
 function Experience() {
     return (
         <section className="experience" id="experience">
-
-            <div className="timeline">
+            <div className="exp-list">
                 {ITEMS.map((item, i) => (
-                    <div key={i} className="tl-item">
-                        <div className={`tl-dot${item.active ? ' active' : ''}`}></div>
+                    <div key={i} className="exp-row">
+                        <div className="exp-date-col">
+                            <span className="exp-date">{item.date}</span>
+                        </div>
+                        <div className="exp-timeline">
+                            <div className="exp-dot" />
+                            {i < ITEMS.length - 1 && <div className="exp-line" />}
+                        </div>
                         <motion.div
-                            className="tl-card"
-                            initial={{ opacity: 0, x: -16 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.12 }}
-                            viewport={{ once: true }}
+                            className="exp-card"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
+                            viewport={{ once: true, margin: '-80px' }}
                         >
-                            <div className="tl-top">
-                                <div
-                                    className="tl-logo"
-                                    style={{ background: `${item.logoColor}18`, borderColor: `${item.logoColor}40`, color: item.logoColor }}
-                                >
-                                    {item.logo}
+                            <div className="exp-content" data-date={item.date}>
+                                <h3 className="exp-role">{item.role}</h3>
+                                <div className="exp-company">{item.company}</div>
+                                <p className="exp-desc">{item.desc}</p>
+                                <div className="exp-tags">
+                                    {item.tags.map((t) => (
+                                        <span key={t.label} className={`exp-tag${t.cls ? ' ' + t.cls : ''}`}>
+                                            {t.label}
+                                        </span>
+                                    ))}
                                 </div>
-                                <div className="tl-top-text">
-                                    <div className="tl-header">
-                                        <div className="tl-role">{item.role}</div>
-                                        {item.active && <span className="tl-current">current</span>}
-                                    </div>
-                                    <div className="tl-company">{item.company}</div>
-                                </div>
-                                <div className="tl-date">{item.date}</div>
-                            </div>
-                            <div className="tl-desc">{item.desc}</div>
-                            <div className="tl-tags">
-                                {item.tags.map((t) => (
-                                    <span key={t.label} className={`tl-tag${t.cls ? ' ' + t.cls : ''}`}>
-                                        {t.label}
-                                    </span>
-                                ))}
                             </div>
                         </motion.div>
                     </div>
