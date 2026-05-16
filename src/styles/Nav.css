@@ -21,6 +21,12 @@
     letter-spacing: -0.01em;
     text-decoration: none;
     cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.nav-logo--hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-logo em {

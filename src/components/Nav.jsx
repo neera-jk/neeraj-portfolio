@@ -66,7 +66,7 @@ function Nav({ showLogo = true }) {
 
     return (
         <nav className="nav">
-            <a href="#hero" className="nav-logo" style={{ opacity: showLogo ? 1 : 0, transition: 'opacity 0.15s ease' }}>
+            <a href="#hero" className={`nav-logo${showLogo ? '' : ' nav-logo--hidden'}`}>
                 nk<em>.</em>
             </a>
             <div className={`nav-section${pastHero ? ' visible' : ''}`}>

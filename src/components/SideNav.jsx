@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import '../styles/SideNav.css'
 
 const SECTIONS = [
     { id: 'hero', label: 'Home' },
@@ -45,11 +46,7 @@ function SideNav() {
     }, [])
 
     return (
-        <div className="side-nav" style={{
-            opacity: visible ? 1 : 0,
-            pointerEvents: visible ? 'auto' : 'none',
-            transition: 'opacity 0.4s ease',
-        }}>
+        <div className={`side-nav${visible ? ' side-nav--visible' : ''}`}>
             {SECTIONS.map(({ id, label }) => {
                 const isActive = active === id
                 const showLabel = hovered === id || isActive
@@ -64,20 +61,10 @@ function SideNav() {
                         onMouseLeave={() => setHovered(null)}
                     >
                         <span
-                            className="side-nav-dot"
-                            style={{
-                                width: isActive ? 10 : 6,
-                                height: isActive ? 10 : 6,
-                                background: isActive ? 'var(--accent)' : 'var(--dot-inactive)',
-                                boxShadow: isActive ? '0 0 12px var(--accent-hover)' : 'none',
-                            }}
+                            className={`side-nav-dot${isActive ? ' side-nav-dot--active' : ''}`}
                         />
                         <span
-                            className="side-nav-label"
-                            style={{
-                                opacity: showLabel ? 1 : 0,
-                                color: isActive ? 'var(--accent-light)' : 'var(--dot-label)',
-                            }}
+                            className={`side-nav-label${showLabel ? ' side-nav-label--visible' : ''}${isActive ? ' side-nav-label--active' : ''}`}
                         >
                             {label}
                         </span>

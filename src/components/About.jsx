@@ -23,25 +23,10 @@ function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     viewport={{ once: true }}
-                    style={{ position: 'relative' }}
                 >
-                    <div style={{
-                        position: 'absolute',
-                        inset: 0,
-                        overflow: 'hidden',
-                        pointerEvents: 'none',
-                        zIndex: 0,
-                    }}>
+                    <div className="about-watermark-wrap">
                         <motion.div
-                            style={{
-                                fontSize: 'clamp(3rem, 8vw, 6rem)',
-                                fontWeight: 800,
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                whiteSpace: 'nowrap',
-                            }}
+                            className="about-watermark-text"
                             initial={{ color: 'rgba(99,102,241,0)' }}
                             whileInView={{ color: ['rgba(99,102,241,0)', 'rgba(99,102,241,0.04)', 'rgba(99,102,241,0)'] }}
                             transition={{ duration: 2 }}
