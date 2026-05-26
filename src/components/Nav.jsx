@@ -66,7 +66,11 @@ function Nav({ showLogo = true }) {
 
     return (
         <nav className="nav">
-            <a href="#hero" className={`nav-logo${showLogo ? '' : ' nav-logo--hidden'}`}>
+            <a href="#hero" className={`nav-logo${showLogo ? '' : ' nav-logo--hidden'}`}
+                onClick={(e) => {
+                    e.preventDefault()
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}>
                 nk<em>.</em>
             </a>
             <div className={`nav-section${pastHero ? ' visible' : ''}`}>

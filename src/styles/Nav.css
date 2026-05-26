@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 var(--section-x);
-    border-bottom: 0.5px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -38,15 +38,16 @@
     font-size: var(--fs-sm);
     padding: 7px 20px;
     border-radius: 999px;
-    border: 0.5px solid var(--border);
-    color: var(--text-secondary);
+    border: 0.5px solid rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
     text-decoration: none;
     transition: all 0.18s;
 }
 
 .nav-resume:hover {
-    border-color: var(--border-hover);
+    border-color: rgba(99, 102, 241, 0.7);
     color: var(--text-primary);
+    background: rgba(99, 102, 241, 0.1);
 }
 
 /* ============ Nav right group ============ */
@@ -64,17 +65,16 @@
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    border: 0.5px solid var(--border);
+    border: 0.5px solid rgba(99, 102, 241, 0.4);
     background: transparent;
-    color: var(--text-secondary);
+    color: #a5b4fc;
     cursor: pointer;
-    transition: all 0.22s;
+    transition: box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
 .theme-toggle:hover {
-    border-color: var(--border-hover);
-    color: var(--text-primary);
-    background: var(--accent-dim);
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+    border-color: rgba(99, 102, 241, 0.6);
 }
 
 /* ============ Section indicator ============ */

@@ -4,7 +4,7 @@ function Footer() {
     return (
         <footer className="footer">
             <span className="footer-left">
-                Boston, MA · Northeastern MS CS '26 · Built with React + Framer Motion
+                Boston, MA · Northeastern MS CS '27 · Built with React + Framer Motion
             </span>
             <span className="footer-status">
                 <span className="footer-dot"></span>

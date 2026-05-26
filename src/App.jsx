@@ -9,7 +9,6 @@ import Projects from './components/Projects'
 import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import CursorEffects from './components/CursorEffects'
 import Splash from './components/Splash'
 
 function App() {
@@ -31,101 +30,117 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!splashDone) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let particles = [];
+    if (!splashDone) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId
+    let particles = []
 
-    const dpr = window.devicePixelRatio || 1;
-    let w, h;
+    const dpr = window.devicePixelRatio || 1
+    let w, h
 
     const resize = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = w + 'px'
+      canvas.style.height = h + 'px'
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
 
     const init = () => {
-      resize();
-      particles = Array.from({ length: 200 }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.2 + 0.3,
-        o: Math.random() * 0.6 + 0.2
-      }));
-    };
+      resize()
+      particles = Array.from({ length: 400 }, () => {
+        const tier = Math.random()
+        const big = tier < 0.05
+        const mid = tier < 0.22
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          // very slow drift, barely perceptible
+          vx: (Math.random() - 0.5) * 0.04,
+          vy: (Math.random() - 0.5) * 0.04,
+          r: big ? 1.6 + Math.random() * 1.0
+            : mid ? 0.7 + Math.random() * 0.7
+              : 0.15 + Math.random() * 0.4,
+          baseOpacity: big ? 0.9 + Math.random() * 0.1
+            : mid ? 0.5 + Math.random() * 0.3
+              : 0.15 + Math.random() * 0.2,
+          phase: Math.random() * Math.PI * 2,
+          twinkleSpeed: big ? 0.8 + Math.random() * 1.0
+            : mid ? 0.4 + Math.random() * 0.7
+              : 0.15 + Math.random() * 0.4,
+          // glow radius very tight, just 1.5-2x the star size
+          glowRatio: big ? 1.8 + Math.random() * 0.8
+            : mid ? 1.5 + Math.random() * 0.6
+              : 1.2 + Math.random() * 0.4,
+          color: Math.random() < 0.78 ? '255,255,255'
+            : Math.random() < 0.65 ? '165,180,252'
+              : '103,232,249',
+          big,
+          mid
+        }
+      })
+    }
 
-    let cachedTheme = document.documentElement.getAttribute('data-theme');
-    let dotColor = cachedTheme === 'light' ? '79,70,229' : '165,180,252';
-    let lineColor = cachedTheme === 'light' ? '79,70,229' : '99,102,241';
-
-    const observer = new MutationObserver(() => {
-      cachedTheme = document.documentElement.getAttribute('data-theme');
-      dotColor = cachedTheme === 'light' ? '79,70,229' : '165,180,252';
-      lineColor = cachedTheme === 'light' ? '79,70,229' : '99,102,241';
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    const LINK_DIST = 100;
-    const LINK_DIST_SQ = LINK_DIST * LINK_DIST;
-    const TWO_PI = Math.PI * 2;
+    let t = 0
 
     const draw = () => {
-      ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h)
+      t += 0.008
 
-      // -- update positions & draw dots in one batched path per opacity group --
       for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = w;
-        if (p.x > w) p.x = 0;
-        if (p.y < 0) p.y = h;
-        if (p.y > h) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, TWO_PI);
-        ctx.fillStyle = `rgba(${dotColor},${p.o})`;
-        ctx.fill();
-      }
+        const p = particles[i]
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0) p.x = w
+        if (p.x > w) p.x = 0
+        if (p.y < 0) p.y = h
+        if (p.y > h) p.y = 0
 
-      // -- draw connecting lines: compare squared distances, batch by opacity --
-      ctx.lineWidth = 0.6;
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < LINK_DIST_SQ) {
-            const alpha = 0.15 * (1 - Math.sqrt(distSq) / LINK_DIST);
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(${lineColor},${alpha})`;
-            ctx.stroke();
-          }
+        const twinkle = Math.sin(t * p.twinkleSpeed + p.phase) * 0.22
+        const opacity = Math.min(1, Math.max(0, p.baseOpacity + twinkle))
+
+        // tight glow, only slightly larger than the star core
+        const glowR = p.r * p.glowRatio
+        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR)
+        glow.addColorStop(0, `rgba(${p.color},${opacity * 0.35})`)
+        glow.addColorStop(0.5, `rgba(${p.color},${opacity * 0.1})`)
+        glow.addColorStop(1, `rgba(${p.color},0)`)
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2)
+        ctx.fillStyle = glow
+        ctx.fill()
+
+        // sharp bright core
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${p.color},${opacity})`
+        ctx.fill()
+
+        // subtle cross flare only on the biggest brightest stars
+        if (p.big && opacity > 0.85) {
+          const fl = p.r * 4
+          ctx.strokeStyle = `rgba(${p.color},${opacity * 0.15})`
+          ctx.lineWidth = 0.5
+          ctx.beginPath(); ctx.moveTo(p.x - fl, p.y); ctx.lineTo(p.x + fl, p.y); ctx.stroke()
+          ctx.beginPath(); ctx.moveTo(p.x, p.y - fl); ctx.lineTo(p.x, p.y + fl); ctx.stroke()
         }
       }
-      animId = requestAnimationFrame(draw);
-    };
 
-    window.addEventListener('resize', resize);
-    init();
-    draw();
+      animId = requestAnimationFrame(draw)
+    }
+
+    window.addEventListener('resize', resize)
+    init()
+    draw()
 
     return () => {
-      cancelAnimationFrame(animId);
-      observer.disconnect();
-      window.removeEventListener('resize', resize);
-    };
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', resize)
+    }
   }, [splashDone])
 
   return (
@@ -144,7 +159,6 @@ function App() {
       <div className="dot-grid" />
       <SideNav />
       <Nav showLogo={showNavLogo} />
-      <CursorEffects />
       <div className="page-wrapper">
         <Hero />
         <About />
