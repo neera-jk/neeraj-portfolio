@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Experience.css'
 
 const ITEMS = [
@@ -6,20 +7,22 @@ const ITEMS = [
         role: 'AI Developer Intern',
         date: 'Feb 2026 – present',
         company: 'LongevAI Inc.',
-        desc: 'Full-stack geriatric health platform. Overhauled 5 role-based dashboards and cataloged 106+ bugs as the team\'s QA reference.',
+        current: true,
+        desc: 'Built and overhauled 5 role-based dashboards on a full-stack geriatric care platform. Developed a Chrome DevTools extension that traverses the React Fiber tree, captures screenshots, and exports structured bug reports, cataloging 106 UI bugs across the codebase.',
+        metric: '5 dashboards overhauled · 106 bugs cataloged',
         tags: [
             { label: 'React' },
             { label: 'Next.js' },
             { label: 'Node.js' },
             { label: 'GraphQL', cls: 'cyan' },
         ],
-        active: true,
     },
     {
         role: 'Software Engineering Intern',
         date: 'May – Aug 2024',
         company: 'Latitude Health',
-        desc: 'Built a UM Reviewer dashboard end-to-end. Designed 9 reusable components and shipped 4 pages including SSO login.',
+        desc: 'Built a UM Reviewer dashboard end-to-end for a clinical utilization management platform. Designed 9 reusable React components and shipped 4 pages including SSO login flow.',
+        metric: '9 components · 4 pages shipped · SSO login',
         tags: [
             { label: 'React' },
             { label: 'JavaScript' },
@@ -31,7 +34,7 @@ const ITEMS = [
         role: 'Web Developer',
         date: 'Oct 2022 – Nov 2023',
         company: 'Wyoming Global Research',
-        desc: 'Built a ChatGPT-powered chatbot to automate student queries. Evaluated 3 frameworks and shipped the top performer.',
+        desc: 'Built a ChatGPT-powered chatbot to automate student queries on the company website. Evaluated 3 integration frameworks and shipped the highest-performing solution.',
         tags: [
             { label: 'WordPress' },
             { label: 'JavaScript', cls: 'n' },
@@ -42,7 +45,7 @@ const ITEMS = [
         role: 'Software Intern',
         date: 'Apr – Aug 2022',
         company: 'Cognizant',
-        desc: 'Automated test suites with Selenium and Java across 4 landing pages for 3 client projects.',
+        desc: 'Automated test suites with Selenium and Java across 4 landing pages for 3 client projects, improving regression testing coverage.',
         tags: [
             { label: 'Selenium', cls: 'n' },
             { label: 'Java', cls: 'n' },
@@ -52,40 +55,87 @@ const ITEMS = [
 ]
 
 function Experience() {
+    const [openIdx, setOpenIdx] = useState(0)
+
     return (
         <section className="experience" id="experience">
             <div className="exp-list">
-                {ITEMS.map((item, i) => (
-                    <div key={i} className="exp-row">
-                        <div className="exp-date-col">
-                            <span className="exp-date">{item.date}</span>
-                        </div>
-                        <div className="exp-timeline">
-                            <div className="exp-dot" />
-                            {i < ITEMS.length - 1 && <div className="exp-line" />}
-                        </div>
+                {ITEMS.map((item, i) => {
+                    const isOpen = openIdx === i
+                    const isCurrent = item.current
+
+                    return (
                         <motion.div
-                            className="exp-card"
-                            initial={{ opacity: 0, y: 50 }}
+                            key={i}
+                            className="exp-row"
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
-                            viewport={{ once: true, margin: '-80px' }}
+                            transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true, margin: '-60px' }}
                         >
-                            <div className="exp-content" data-date={item.date}>
-                                <h3 className="exp-role">{item.role}</h3>
-                                <div className="exp-company">{item.company}</div>
-                                <p className="exp-desc">{item.desc}</p>
-                                <div className="exp-tags">
-                                    {item.tags.map((t) => (
-                                        <span key={t.label} className={`exp-tag${t.cls ? ' ' + t.cls : ''}`}>
-                                            {t.label}
-                                        </span>
-                                    ))}
+                            <div className="exp-date-col">
+                                <span className="exp-date">{item.date}</span>
+                            </div>
+
+                            <div className="exp-card-wrap">
+                                <div
+                                    className={`exp-card-header ${isOpen ? 'open' : ''} ${isCurrent ? 'current' : ''}`}
+                                    onClick={() => setOpenIdx(isOpen ? null : i)}
+                                >
+                                    <div className="exp-header-left">
+                                        <div className="exp-role">{item.role}</div>
+                                        <div className="exp-company">{item.company}</div>
+                                    </div>
+                                    <div className="exp-header-right">
+                                        {isCurrent && (
+                                            <span className="exp-current-badge">Current</span>
+                                        )}
+                                        <motion.span
+                                            className="exp-chevron"
+                                            animate={{ rotate: isOpen ? 180 : 0 }}
+                                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                        >
+                                            ▾
+                                        </motion.span>
+                                    </div>
                                 </div>
+
+                                <AnimatePresence initial={false}>
+                                    {isOpen && (
+                                        <motion.div
+                                            className="exp-card-body"
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{
+                                                height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                                opacity: { duration: 0.35, ease: 'easeInOut' }
+                                            }}
+                                        >
+                                            <div className="exp-body-inner">
+                                                <div className="exp-body-divider" />
+                                                <p className="exp-desc">{item.desc}</p>
+                                                {item.metric && (
+                                                    <p className="exp-metric">{item.metric}</p>
+                                                )}
+                                                <div className="exp-tags">
+                                                    {item.tags.map((t) => (
+                                                        <span
+                                                            key={t.label}
+                                                            className={`exp-tag${t.cls ? ' ' + t.cls : ''}`}
+                                                        >
+                                                            {t.label}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </motion.div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
         </section>
     )

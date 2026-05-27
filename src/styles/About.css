@@ -76,22 +76,3 @@
     max-width: 720px;
     margin: 0 auto;
 }
-
-/* ============ Watermark ============ */
-.about-watermark-wrap {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.about-watermark-text {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 800;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-}

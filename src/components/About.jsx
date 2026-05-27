@@ -24,17 +24,6 @@ function About() {
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     viewport={{ once: true }}
                 >
-                    <div className="about-watermark-wrap">
-                        <motion.div
-                            className="about-watermark-text"
-                            initial={{ color: 'rgba(99,102,241,0)' }}
-                            whileInView={{ color: ['rgba(99,102,241,0)', 'rgba(99,102,241,0.04)', 'rgba(99,102,241,0)'] }}
-                            transition={{ duration: 2 }}
-                            viewport={{ once: false }}
-                        >
-                            Neeraj Kumar
-                        </motion.div>
-                    </div>
                     <motion.div {...fade(0)}>
                         <p className="about-text">
                             I'm a CS grad student at Northeastern who went from

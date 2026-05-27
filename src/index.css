@@ -57,17 +57,6 @@ body {
     radial-gradient(ellipse 40% 30% at 5% 90%, var(--accent2-dim) 0%, transparent 70%);
 }
 
-.dot-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image: radial-gradient(circle, var(--accent-dim) 1px, transparent 1px);
-  background-size: 26px 26px;
-  -webkit-mask-image: radial-gradient(ellipse 50% 80% at 80% 50%, black 0%, transparent 70%);
-  mask-image: radial-gradient(ellipse 50% 80% at 80% 50%, black 0%, transparent 70%);
-}
-
 /* responsive images */
 img {
   max-width: 100%;

@@ -8,157 +8,198 @@
     z-index: 5;
 }
 
-/* ============ List ============ */
 .exp-list {
     display: flex;
     flex-direction: column;
+    gap: 20px;
     max-width: 860px;
     margin: 0 auto;
+    width: 100%;
 }
 
-/* ============ Row: date + timeline + card ============ */
 .exp-row {
     display: flex;
-    gap: 24px;
+    gap: 0;
+    align-items: stretch;
 }
 
-/* ============ Date column (left) ============ */
+/* ============ Date column ============ */
 .exp-date-col {
     flex-shrink: 0;
-    width: 130px;
-    padding-top: 32px;
+    width: 120px;
+    padding-top: 15px;
     text-align: right;
+    padding-right: 20px;
+    position: relative;
+    align-self: stretch;
 }
 
 .exp-date {
-    font-size: var(--fs-sm);
+    font-size: var(--fs-xs);
     color: var(--text-muted);
-    white-space: nowrap;
-    line-height: 1.3;
+    line-height: 1.5;
 }
 
-/* ============ Timeline track ============ */
-.exp-timeline {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-    width: 20px;
-    padding-top: 32px;
-}
-
-.exp-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    background: var(--bg-primary);
-    flex-shrink: 0;
-    z-index: 1;
-    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-}
-
-.exp-row:first-child .exp-dot {
-    background: var(--accent);
-    box-shadow: 0 0 14px rgba(99, 102, 241, 0.4);
-}
-
-.exp-row:hover .exp-dot {
-    background: var(--accent);
-    transform: scale(1.3);
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
-}
-
-.exp-line {
-    width: 2px;
-    flex: 1;
-    background: linear-gradient(to bottom, var(--accent-border), var(--border));
-    margin-top: 4px;
-}
-
-/* ============ Card ============ */
-.exp-card {
-    flex: 1;
-    min-width: 0;
-    border-radius: var(--card-radius);
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid var(--border);
-    transition: border-color 0.35s, background 0.35s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: default;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Top gradient on hover */
-.exp-card::before {
+/* vertical line that stretches with the card */
+.exp-date-col::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-border), var(--accent2-border), transparent);
-    opacity: 0;
-    transition: opacity 0.35s;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+            transparent,
+            rgba(99, 102, 241, 0.25) 15%,
+            rgba(99, 102, 241, 0.25) 85%,
+            transparent);
+    transition: background 0.5s ease;
 }
 
-.exp-card:hover {
-    border-color: var(--border-hover);
-    background: rgba(255, 255, 255, 0.04);
-    transform: translateX(4px);
+/* ============ Card wrap ============ */
+.exp-card-wrap {
+    flex: 1;
+    min-width: 0;
+    padding-left: 20px;
 }
 
-.exp-card:hover::before {
-    opacity: 1;
+/* ============ Header ============ */
+.exp-card-header {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.5px solid var(--border);
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: border-color 0.4s ease, background 0.4s ease;
+    user-select: none;
 }
 
-/* ============ Content ============ */
-.exp-content {
-    padding: 28px 32px;
+.exp-card-header:hover {
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.exp-card-header.open {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: rgba(99, 102, 241, 0.25);
+    border-bottom-color: transparent;
+    border-radius: 6px 6px 0 0;
+}
+
+/* ============ Header content ============ */
+.exp-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 .exp-role {
-    font-size: var(--fs-xl);
-    font-weight: 600;
+    font-size: var(--fs-base);
+    font-weight: 500;
     color: var(--text-primary);
     line-height: 1.3;
-    margin: 0 0 4px;
+    transition: color 0.3s ease;
+}
+
+.exp-card-header.open .exp-role {
+    color: var(--accent-light);
 }
 
 .exp-company {
-    font-size: var(--fs-base);
+    font-size: var(--fs-sm);
     color: var(--accent-light);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.exp-card-header.open .exp-company {
+    opacity: 1;
+}
+
+.exp-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.exp-current-badge {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: var(--accent2-dim);
+    border: 0.5px solid var(--accent2-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.exp-chevron {
+    font-size: 14px;
+    color: var(--text-muted);
+    display: inline-block;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.exp-card-header.open .exp-chevron {
+    color: var(--accent-light);
+}
+
+/* ============ Expanded body ============ */
+.exp-card-body {
+    overflow: hidden;
+    border: 0.5px solid rgba(99, 102, 241, 0.25);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    background: rgba(99, 102, 241, 0.03);
+}
+
+.exp-body-inner {
+    padding: 14px 18px 18px;
+}
+
+.exp-body-divider {
+    height: 0.5px;
+    background: rgba(99, 102, 241, 0.15);
     margin-bottom: 14px;
 }
 
 .exp-desc {
-    font-size: var(--fs-base);
+    font-size: var(--fs-sm);
     color: var(--text-secondary);
-    line-height: 1.7;
-    margin: 0 0 18px;
+    line-height: 1.75;
+    margin-bottom: 12px;
+}
+
+.exp-metric {
+    font-size: var(--fs-xs);
+    color: var(--accent-light);
+    opacity: 0.8;
+    margin-bottom: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
 }
 
 /* ============ Tags ============ */
 .exp-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .exp-tag {
     font-size: var(--fs-xs);
-    padding: 5px 14px;
+    padding: 4px 12px;
     border-radius: 20px;
     background: var(--accent-dim);
     border: 1px solid var(--accent-border);
     color: var(--accent-light);
-    transition: background 0.2s, transform 0.2s;
-}
-
-.exp-tag:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
+    transition: background 0.2s;
 }
 
 .exp-tag.cyan {
@@ -167,40 +208,19 @@
     color: var(--accent2-light);
 }
 
-.exp-tag.cyan:hover {
-    background: rgba(6, 182, 212, 0.2);
-}
-
 .exp-tag.n {
     background: var(--bg-inset);
     border-color: var(--border);
     color: var(--text-muted);
 }
 
-.exp-tag.n:hover {
-    background: rgba(255, 255, 255, 0.06);
-}
-
 /* ============ Responsive ============ */
 @media (max-width: 600px) {
-    .exp-row {
-        gap: 14px;
-    }
-
     .exp-date-col {
         display: none;
     }
 
-    /* Show date inside card on mobile */
-    .exp-content::before {
-        content: attr(data-date);
-        display: block;
-        font-size: var(--fs-xs);
-        color: var(--text-muted);
-        margin-bottom: 6px;
-    }
-
-    .exp-content {
-        padding: 20px 22px;
+    .exp-card-wrap {
+        padding-left: 0;
     }
 }

@@ -35,7 +35,6 @@ function Skills() {
 
     return (
         <section className="skills" id="skills">
-
             <motion.div
                 className="skills-tabs"
                 initial={{ opacity: 0, y: 20 }}
@@ -45,6 +44,7 @@ function Skills() {
             >
                 {TABS.map(t => (
                     <button
+                        type="button"
                         key={t.key}
                         className={`skills-tab ${active === t.key ? 'active' : ''}`}
                         onClick={() => setActive(t.key)}
@@ -61,21 +61,15 @@ function Skills() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.15, ease: 'easeInOut' }}
                 >
-                    {filtered.map((s, i) => (
-                        <motion.div
-                            className="skill-card"
-                            key={s.name}
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: i * 0.03, ease: [0.16, 1, 0.3, 1] }}
-                        >
+                    {filtered.map((s) => (
+                        <div className="skill-card" key={s.name}>
                             <div className="skill-icon">
                                 <img src={s.logo} alt={s.name} />
                             </div>
                             <span className="skill-name">{s.name}</span>
-                        </motion.div>
+                        </div>
                     ))}
                 </motion.div>
             </AnimatePresence>

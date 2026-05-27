@@ -1,20 +1,43 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import '../styles/Nav.css'
 
 const SECTIONS = [
     { id: 'hero', label: 'Home' },
-    { id: 'about', label: 'About Me' },
-    { id: 'experience', label: 'Work Experience' },
-    { id: 'skills', label: 'Skills & Tech' },
-    { id: 'projects', label: 'Selected Projects' },
+    { id: 'about', label: 'About' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'projects', label: 'Projects' },
     { id: 'education', label: 'Education' },
-    { id: 'contact', label: 'Get in Touch' },
+    { id: 'contact', label: 'Contact' },
 ]
 
+const VISIBLE_COUNT = 4
+
 function Nav({ showLogo = true }) {
-    const [section, setSection] = useState('Home')
-    const [pastHero, setPastHero] = useState(false)
+    const [active, setActive] = useState('hero')
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
+    const [carouselStart, setCarouselStart] = useState(0)
+    const [isCompact, setIsCompact] = useState(false)
+    const navCenterRef = useRef(null)
+
+    // detect compact mode based on nav center width
+    useEffect(() => {
+        const check = () => setIsCompact(window.innerWidth < 900)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+
+    // keep active section in view on carousel
+    useEffect(() => {
+        if (!isCompact) return
+        const idx = SECTIONS.findIndex(s => s.id === active)
+        if (idx < carouselStart) {
+            setCarouselStart(idx)
+        } else if (idx >= carouselStart + VISIBLE_COUNT) {
+            setCarouselStart(idx - VISIBLE_COUNT + 1)
+        }
+    }, [active, isCompact])
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme)
@@ -25,7 +48,6 @@ function Nav({ showLogo = true }) {
         const detect = () => {
             const midY = window.scrollY + window.innerHeight / 2
             let current = SECTIONS[0]
-
             for (let i = SECTIONS.length - 1; i >= 0; i--) {
                 const el = document.getElementById(SECTIONS[i].id)
                 if (!el) continue
@@ -34,10 +56,8 @@ function Nav({ showLogo = true }) {
                     break
                 }
             }
-            setSection(current.label)
-            setPastHero(window.scrollY > window.innerHeight * 0.5)
+            setActive(current.id)
         }
-
         window.addEventListener('scroll', detect, { passive: true })
         detect()
         return () => window.removeEventListener('scroll', detect)
@@ -48,15 +68,10 @@ function Nav({ showLogo = true }) {
         overlay.className = 'theme-fade-overlay'
         overlay.style.background = theme === 'dark' ? '#000' : '#fff'
         document.body.appendChild(overlay)
-
-        // Force reflow then fade in
         overlay.offsetHeight
         overlay.classList.add('active')
-
-        // Swap theme while screen is covered
         setTimeout(() => {
             setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))
-            // Fade out
             setTimeout(() => {
                 overlay.classList.remove('active')
                 overlay.addEventListener('transitionend', () => overlay.remove())
@@ -64,18 +79,69 @@ function Nav({ showLogo = true }) {
         }, 350)
     }, [theme])
 
+    const scrollTo = (id) => {
+        if (id === 'hero') {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        } else {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+
+    const visibleSections = isCompact
+        ? SECTIONS.slice(carouselStart, carouselStart + VISIBLE_COUNT)
+        : SECTIONS
+
+    const canPrev = carouselStart > 0
+    const canNext = carouselStart + VISIBLE_COUNT < SECTIONS.length
+
     return (
         <nav className="nav">
-            <a href="#hero" className={`nav-logo${showLogo ? '' : ' nav-logo--hidden'}`}
+            <a
+                href="#hero"
+                className={`nav-logo${showLogo ? '' : ' nav-logo--hidden'}`}
                 onClick={(e) => {
                     e.preventDefault()
                     window.scrollTo({ top: 0, behavior: 'smooth' })
-                }}>
+                }}
+            >
                 nk<em>.</em>
             </a>
-            <div className={`nav-section${pastHero ? ' visible' : ''}`}>
-                {section}
+
+            <div className="nav-center" ref={navCenterRef}>
+                {isCompact && (
+                    <button
+                        className={`nav-arrow ${!canPrev ? 'nav-arrow--hidden' : ''}`}
+                        onClick={() => setCarouselStart(s => Math.max(0, s - 1))}
+                        aria-label="Previous sections"
+                    >
+                        ‹
+                    </button>
+                )}
+
+                <div className="nav-links">
+                    {visibleSections.map(s => (
+                        <button
+                            key={s.id}
+                            type="button"
+                            className={`nav-link ${active === s.id ? 'nav-link--active' : ''}`}
+                            onClick={() => scrollTo(s.id)}
+                        >
+                            {s.label}
+                        </button>
+                    ))}
+                </div>
+
+                {isCompact && (
+                    <button
+                        className={`nav-arrow ${!canNext ? 'nav-arrow--hidden' : ''}`}
+                        onClick={() => setCarouselStart(s => Math.min(SECTIONS.length - VISIBLE_COUNT, s + 1))}
+                        aria-label="Next sections"
+                    >
+                        ›
+                    </button>
+                )}
             </div>
+
             <div className="nav-right">
                 <button
                     className="theme-toggle"

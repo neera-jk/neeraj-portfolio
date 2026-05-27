@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 var(--section-x);
-    border-bottom: 1.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -14,6 +14,7 @@
     -webkit-backdrop-filter: blur(20px);
 }
 
+/* ============ Logo ============ */
 .nav-logo {
     font-size: var(--fs-md);
     font-weight: 500;
@@ -22,6 +23,7 @@
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.15s ease;
+    flex-shrink: 0;
 }
 
 .nav-logo--hidden {
@@ -34,27 +36,84 @@
     color: var(--accent);
 }
 
-.nav-resume {
-    font-size: var(--fs-sm);
-    padding: 7px 20px;
-    border-radius: 999px;
-    border: 0.5px solid rgba(99, 102, 241, 0.4);
-    color: #a5b4fc;
-    text-decoration: none;
-    transition: all 0.18s;
+/* ============ Center links ============ */
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.nav-resume:hover {
-    border-color: rgba(99, 102, 241, 0.7);
-    color: var(--text-primary);
-    background: rgba(99, 102, 241, 0.1);
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
-/* ============ Nav right group ============ */
+/* ============ Individual link ============ */
+.nav-link {
+    font-size: 13.5px;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-link--active {
+    color: var(--accent-light);
+    background: var(--accent-dim);
+    border: 0.5px solid var(--accent-border);
+}
+
+.nav-link--active:hover {
+    color: var(--accent-light);
+    background: var(--accent-dim);
+}
+
+/* ============ Carousel arrows ============ */
+.nav-arrow {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    font-family: var(--font-sans);
+}
+
+.nav-arrow:hover {
+    color: var(--accent-light);
+}
+
+.nav-arrow--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ============ Right group ============ */
 .nav-right {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-shrink: 0;
 }
 
 /* ============ Theme toggle ============ */
@@ -73,27 +132,35 @@
 }
 
 .theme-toggle:hover {
-    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
     border-color: rgba(99, 102, 241, 0.6);
 }
 
-/* ============ Section indicator ============ */
-.nav-section {
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: all 0.35s ease;
-    pointer-events: none;
-    position: absolute;
-    left: 50%;
-    translate: -50% 0;
+/* ============ Resume ============ */
+.nav-resume {
+    font-size: var(--fs-sm);
+    padding: 7px 20px;
+    border-radius: 999px;
+    border: 0.5px solid rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+    text-decoration: none;
+    transition: all 0.18s;
+    white-space: nowrap;
 }
 
-.nav-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+.nav-resume:hover {
+    border-color: rgba(99, 102, 241, 0.7);
+    color: var(--text-primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* ============ Mobile: hide nav links, side dots take over ============ */
+@media (max-width: 768px) {
+    .nav-center {
+        display: none;
+    }
+
+    .nav-resume {
+        display: none;
+    }
 }
