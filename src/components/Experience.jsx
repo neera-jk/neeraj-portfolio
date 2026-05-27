@@ -8,7 +8,7 @@ const ITEMS = [
         date: 'Feb 2026 – present',
         company: 'LongevAI Inc.',
         current: true,
-        desc: 'Built and overhauled 5 role-based dashboards on a full-stack geriatric care platform. Developed a Chrome DevTools extension that traverses the React Fiber tree, captures screenshots, and exports structured bug reports, cataloging 106 UI bugs across the codebase.',
+        desc: 'Built and overhauled 5 role-based dashboards on a full-stack geriatric care platform. Built UI Inspector, a Chrome extension that traverses the React Fiber tree, captures screenshots, and exports structured bug reports, cataloging 106 UI bugs across the codebase.',
         metric: '5 dashboards overhauled · 106 bugs cataloged',
         tags: [
             { label: 'React' },

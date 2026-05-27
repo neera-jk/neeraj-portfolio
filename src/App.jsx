@@ -32,6 +32,11 @@ function App() {
     if (!splashDone) return
     const canvas = canvasRef.current
     if (!canvas) return
+
+    const isMobile = window.matchMedia('(pointer: coarse)').matches
+    if (isMobile) return
+
+
     const ctx = canvas.getContext('2d')
     let animId
     let particles = []

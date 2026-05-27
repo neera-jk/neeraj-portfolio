@@ -10,11 +10,9 @@ const fade = (delay = 0) => ({
 })
 
 function About() {
-    const sectionRef = useRef(null)
 
     return (
-        <section className="about" id="about" ref={sectionRef}>
-
+        <section className="about" id="about">
 
             <div className="about-grid">
                 <motion.div

@@ -13,12 +13,12 @@ function Education() {
         <section className="education" id="education">
             <div className="edu-list">
                 <motion.div className="edu-row" {...fade(0)}>
-                    <div className="edu-year">2024<br />present</div>
+                    <div className="edu-year">2024<br />now</div>
                     <div className="edu-divider" />
                     <div className="edu-info">
                         <div className="edu-deg">MS in Computer Science</div>
                         <div className="edu-sch ind">Northeastern University</div>
-                        <div className="edu-meta">Boston, MA</div>
+                        <div className="edu-meta">Boston, MA · May 2027</div>
                         <div className="edu-crs">Algorithms · HCI · Object Oriented Design · Database Management</div>
                     </div>
                     <span className="edu-badge current">Current</span>

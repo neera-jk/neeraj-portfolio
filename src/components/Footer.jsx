@@ -4,11 +4,10 @@ function Footer() {
     return (
         <footer className="footer">
             <span className="footer-left">
-                Boston, MA · Northeastern MS CS '27 · Built with React + Framer Motion
+                Neeraj Kumar · Built with React + Framer Motion
             </span>
-            <span className="footer-status">
-                <span className="footer-dot"></span>
-                Open to offers
+            <span className="footer-right">
+                © 2026
             </span>
         </footer>
     )
