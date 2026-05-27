@@ -39,6 +39,9 @@ function App() {
     const dpr = window.devicePixelRatio || 1
     let w, h
 
+    const getTheme = () =>
+      document.documentElement.getAttribute('data-theme') === 'light'
+
     const resize = () => {
       w = window.innerWidth
       h = window.innerHeight
@@ -55,6 +58,7 @@ function App() {
         const tier = Math.random()
         const big = tier < 0.05
         const mid = tier < 0.22
+        const colorRoll = Math.random()
         return {
           x: Math.random() * w,
           y: Math.random() * h,
@@ -73,8 +77,8 @@ function App() {
           glowRatio: big ? 1.8 + Math.random() * 0.8
             : mid ? 1.5 + Math.random() * 0.6
               : 1.2 + Math.random() * 0.4,
-          color: Math.random() < 0.78 ? '255,255,255'
-            : Math.random() < 0.65 ? '165,180,252'
+          darkColor: colorRoll < 0.78 ? '255,255,255'
+            : colorRoll < 0.93 ? '165,180,252'
               : '103,232,249',
           big,
           mid
@@ -88,6 +92,8 @@ function App() {
       ctx.clearRect(0, 0, w, h)
       t += 0.008
 
+      const isLight = getTheme()
+
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i]
         p.x += p.vx
@@ -100,11 +106,14 @@ function App() {
         const twinkle = Math.sin(t * p.twinkleSpeed + p.phase) * 0.22
         const opacity = Math.min(1, Math.max(0, p.baseOpacity + twinkle))
 
+        const color = isLight ? '26,24,41' : p.darkColor
+        const finalOpacity = isLight ? opacity * 0.4 : opacity
+
         const glowR = p.r * p.glowRatio
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR)
-        glow.addColorStop(0, `rgba(${p.color},${opacity * 0.35})`)
-        glow.addColorStop(0.5, `rgba(${p.color},${opacity * 0.1})`)
-        glow.addColorStop(1, `rgba(${p.color},0)`)
+        glow.addColorStop(0, `rgba(${color},${finalOpacity * 0.35})`)
+        glow.addColorStop(0.5, `rgba(${color},${finalOpacity * 0.1})`)
+        glow.addColorStop(1, `rgba(${color},0)`)
         ctx.beginPath()
         ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2)
         ctx.fillStyle = glow
@@ -112,12 +121,12 @@ function App() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${p.color},${opacity})`
+        ctx.fillStyle = `rgba(${color},${finalOpacity})`
         ctx.fill()
 
-        if (p.big && opacity > 0.85) {
+        if (p.big && finalOpacity > 0.7) {
           const fl = p.r * 4
-          ctx.strokeStyle = `rgba(${p.color},${opacity * 0.15})`
+          ctx.strokeStyle = `rgba(${color},${finalOpacity * 0.15})`
           ctx.lineWidth = 0.5
           ctx.beginPath(); ctx.moveTo(p.x - fl, p.y); ctx.lineTo(p.x + fl, p.y); ctx.stroke()
           ctx.beginPath(); ctx.moveTo(p.x, p.y - fl); ctx.lineTo(p.x, p.y + fl); ctx.stroke()
