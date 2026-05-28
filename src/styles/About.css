@@ -8,26 +8,6 @@
     z-index: 5;
 }
 
-/* ============ Section label ============ */
-.sec-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.sec-label::after {
-    content: '';
-    flex: 1;
-    height: 0.5px;
-    background: var(--border);
-}
-
-/* ============ Card ============ */
 .about-card {
     background: var(--bg-card);
     border: 0.5px solid var(--border);
@@ -52,7 +32,6 @@
     border-color: var(--accent-hover);
 }
 
-/* ============ Text ============ */
 .about-text {
     font-size: var(--fs-md);
     line-height: 1.9;
@@ -64,14 +43,12 @@
     font-weight: 500;
 }
 
-/* ============ Divider ============ */
 .about-divider {
     height: 0.5px;
     background: var(--border);
     margin: 26px 0;
 }
 
-/* ============ Grid layout ============ */
 .about-grid {
     max-width: 720px;
     margin: 0 auto;

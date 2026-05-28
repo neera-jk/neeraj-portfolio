@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import '../styles/Nav.css'
 
 const SECTIONS = [
@@ -18,7 +18,6 @@ function Nav({ showLogo = true }) {
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
     const [carouselStart, setCarouselStart] = useState(0)
     const [isCompact, setIsCompact] = useState(false)
-    const navCenterRef = useRef(null)
 
     // detect compact mode based on nav center width
     useEffect(() => {
@@ -107,7 +106,7 @@ function Nav({ showLogo = true }) {
                 nk<em>.</em>
             </a>
 
-            <div className="nav-center" ref={navCenterRef}>
+            <div className="nav-center">
                 {isCompact && (
                     <button
                         className={`nav-arrow ${!canPrev ? 'nav-arrow--hidden' : ''}`}

@@ -81,6 +81,15 @@ function Experience() {
                                 <div
                                     className={`exp-card-header ${isOpen ? 'open' : ''} ${isCurrent ? 'current' : ''}`}
                                     onClick={() => setOpenIdx(isOpen ? null : i)}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-expanded={isOpen}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault()
+                                            setOpenIdx(isOpen ? null : i)
+                                        }
+                                    }}
                                 >
                                     <div className="exp-header-left">
                                         <div className="exp-role">{item.role}</div>

@@ -33,7 +33,7 @@ function App() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const isMobile = window.matchMedia('(pointer: coarse)').matches
+    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches
     if (isMobile) return
 
 

@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
 import '../styles/About.css'
 
 const fade = (delay = 0) => ({

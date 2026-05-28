@@ -47,7 +47,7 @@ function Education() {
                 <div className="pub-left">
                     <span className="edu-badge pub">Publication</span>
                     <div className="pub-title">Fuzzy-Based Hierarchical Routing Protocol for Wireless Sensor Networks</div>
-                    <div className="pub-publisher">Springer — Sustainable Computing</div>
+                    <div className="pub-publisher">Springer - Sustainable Computing</div>
                     <div className="pub-doi">DOI: 10.1007/978-3-031-13577-4_13</div>
                 </div>
                 <div className="pub-right">

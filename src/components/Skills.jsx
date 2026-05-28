@@ -66,7 +66,7 @@ function Skills() {
                     {filtered.map((s) => (
                         <div className="skill-card" key={s.name}>
                             <div className="skill-icon">
-                                <img src={s.logo} alt={s.name} />
+                                <img src={s.logo} alt={s.name} loading="lazy" />
                             </div>
                             <span className="skill-name">{s.name}</span>
                         </div>

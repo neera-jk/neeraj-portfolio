@@ -20,19 +20,6 @@
     opacity: 0.5;
 }
 
-@keyframes footerPulse {
-
-    0%,
-    100% {
-        opacity: 0.5;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-/* ============ Responsive ============ */
 @media (max-width: 480px) {
     .footer {
         flex-direction: column;

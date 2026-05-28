@@ -18,7 +18,7 @@ const PROJECTS = [
         tags: ['React', 'Vite', 'NOAA API', 'Canvas'],
         link: 'https://github.com/neera-jk/masswater',
         type: 'Full Stack',
-        metric: 'Live NOAA data · React + Express + PostgreSQL',
+        metric: 'Live NOAA data · custom canvas gauge · real-time station picker',
         gradient: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #06b6d4 100%)',
     },
 ]
