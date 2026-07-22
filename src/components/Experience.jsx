@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Experience.css'
-
 const ITEMS = [
     {
         role: 'AI Developer Intern',
-        date: 'Feb 2026 – present',
+        date: 'Feb – May 2026',
         company: 'LongevAI Inc.',
-        current: true,
         desc: 'Built and overhauled 5 role-based dashboards on a full-stack geriatric care platform. Built UI Inspector, a Chrome extension that traverses the React Fiber tree, captures screenshots, and exports structured bug reports, cataloging 106 UI bugs across the codebase.',
         metric: '5 dashboards overhauled · 106 bugs cataloged',
         tags: [
@@ -53,17 +51,14 @@ const ITEMS = [
         ],
     },
 ]
-
 function Experience() {
     const [openIdx, setOpenIdx] = useState(0)
-
     return (
         <section className="experience" id="experience">
             <div className="exp-list">
                 {ITEMS.map((item, i) => {
                     const isOpen = openIdx === i
                     const isCurrent = item.current
-
                     return (
                         <motion.div
                             key={i}
@@ -76,7 +71,6 @@ function Experience() {
                             <div className="exp-date-col">
                                 <span className="exp-date">{item.date}</span>
                             </div>
-
                             <div className="exp-card-wrap">
                                 <div
                                     className={`exp-card-header ${isOpen ? 'open' : ''} ${isCurrent ? 'current' : ''}`}
@@ -108,7 +102,6 @@ function Experience() {
                                         </motion.span>
                                     </div>
                                 </div>
-
                                 <AnimatePresence initial={false}>
                                     {isOpen && (
                                         <motion.div
@@ -149,5 +142,4 @@ function Experience() {
         </section>
     )
 }
-
 export default Experience

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { useCallback } from 'react'
 import '../styles/Projects.css'
-
 const PROJECTS = [
     {
         title: 'UI Inspector',
@@ -13,6 +12,15 @@ const PROJECTS = [
         gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)',
     },
     {
+        title: 'LLM Explainer',
+        desc: 'Interactive educational site that visualizes how transformer architectures work across 6 model families and 13 models. Features animated breakdowns of attention mechanisms, tokenization, and inference pipelines.',
+        tags: ['React', 'Vite', 'Framer Motion', 'AI/ML'],
+        link: 'https://github.com/neera-jk/llm-explainer',
+        type: 'Educational',
+        metric: '6 model families · 13 models · animated architecture diagrams',
+        gradient: 'linear-gradient(135deg, #4a1d6a 0%, #7c3aed 50%, #a78bfa 100%)',
+    },
+    {
         title: 'MassWater',
         desc: 'Massachusetts snow depth tracker built with React and Vite. Pulls live NOAA station data, visualizes snow depth across the state with a custom canvas gauge component and real-time station picker.',
         tags: ['React', 'Vite', 'NOAA API', 'Canvas'],
@@ -22,7 +30,6 @@ const PROJECTS = [
         gradient: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #06b6d4 100%)',
     },
 ]
-
 function Projects() {
     const handleTiltMove = useCallback((e) => {
         const el = e.currentTarget
@@ -31,14 +38,11 @@ function Projects() {
         const y = (e.clientY - rect.top) / rect.height - 0.5
         el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`
     }, [])
-
     const handleTiltLeave = useCallback((e) => {
         e.currentTarget.style.transform = ''
     }, [])
-
     return (
         <section className="projects" id="projects">
-
             <div className="projects-list">
                 {PROJECTS.map((p, i) => (
                     <motion.a
@@ -64,7 +68,6 @@ function Projects() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="proj-info">
                             <div className="proj-header">
                                 <span className="proj-title">{p.title}</span>
@@ -87,5 +90,4 @@ function Projects() {
         </section>
     )
 }
-
 export default Projects

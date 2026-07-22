@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import '../styles/Hero.css'
-
 const ROLES = [
     'ms cs @ northeastern \'27',
     'frontend engineer',
     'focused on healthtech UX',
 ]
-
 const SUB_WORDS = [
     { text: 'Building' },
     { text: 'interfaces', accent: true },
@@ -15,12 +13,10 @@ const SUB_WORDS = [
     { text: 'good', accent: true },
     { text: 'to use.' }
 ]
-
 const TYPE_SPEED = 60
 const DELETE_SPEED = 36
 const PAUSE_FULL = 1900
 const PAUSE_NEXT = 400
-
 function MaskReveal({ delay = 0, children, className = '' }) {
     return (
         <div className={`mask-wrap ${className}`}>
@@ -35,13 +31,11 @@ function MaskReveal({ delay = 0, children, className = '' }) {
         </div>
     )
 }
-
 function Hero() {
     const [roleIdx, setRoleIdx] = useState(0)
     const [typed, setTyped] = useState('')
     const [phase, setPhase] = useState('typing')
     const [scrolled, setScrolled] = useState(false)
-
     const sectionRef = useRef(null)
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -49,7 +43,6 @@ function Hero() {
     })
     const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
     const heroY = useTransform(scrollYProgress, [0, 0.8], [0, -60])
-
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 50)
         window.addEventListener('scroll', onScroll, { passive: true })
@@ -58,11 +51,9 @@ function Hero() {
             window.removeEventListener('scroll', onScroll)
         }
     }, [])
-
     useEffect(() => {
         const current = ROLES[roleIdx]
         let timer
-
         if (phase === 'typing') {
             if (typed.length < current.length) {
                 timer = setTimeout(() => {
@@ -83,10 +74,8 @@ function Hero() {
                 }, PAUSE_NEXT)
             }
         }
-
         return () => clearTimeout(timer)
     }, [typed, phase, roleIdx])
-
     return (
         <section className="hero" id="hero" ref={sectionRef}>
             <motion.div className="hero-content" style={{ opacity: heroOpacity, y: heroY }}>
@@ -94,18 +83,15 @@ function Hero() {
                     <MaskReveal delay={0.1}>
                         <div className="hero-eyebrow">
                             <span className="eyebrow-dot"></span>
-                            Open to summer 2026 internships
+                            Open to fall 2026 co-ops and internships
                         </div>
                     </MaskReveal>
-
                     <MaskReveal delay={0.25}>
                         <div className="hero-greeting">Hi, I'm</div>
                     </MaskReveal>
-
                     <MaskReveal delay={0.4}>
                         <h1 className="hero-name">Neeraj Kumar</h1>
                     </MaskReveal>
-
                     <MaskReveal delay={0.55}>
                         <div className="hero-terminal">
                             <span className="terminal-prompt">❯</span>
@@ -117,7 +103,6 @@ function Hero() {
                             <span className="cursor"></span>
                         </div>
                     </MaskReveal>
-
                     <div className="hero-sub">
                         {SUB_WORDS.map((w, i) => (
                             <span key={i} className="word-wrap">
@@ -136,7 +121,6 @@ function Hero() {
                             </span>
                         ))}
                     </div>
-
                     <motion.div
                         className="hero-btns"
                         initial={{ opacity: 0, y: 20 }}
@@ -148,10 +132,8 @@ function Hero() {
                             <span className="btn-arrow-down">↓</span>
                         </a>
                     </motion.div>
-
-                    {/* Social icons removed from Hero section; see Contact section for links */}
+                    { }
                 </div>
-
                 <motion.div
                     className="hero-right"
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -168,7 +150,6 @@ function Hero() {
                     </div>
                 </motion.div>
             </motion.div>
-
             <motion.div
                 className="scroll-hint"
                 animate={{ opacity: scrolled ? 0 : 1 }}
@@ -183,5 +164,4 @@ function Hero() {
         </section >
     )
 }
-
 export default Hero
