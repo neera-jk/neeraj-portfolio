@@ -29,6 +29,15 @@ const PROJECTS = [
         metric: 'Live NOAA data · custom canvas gauge · real-time station picker',
         gradient: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #06b6d4 100%)',
     },
+    {
+        title: 'Campus Course Manager',
+        desc: 'Console-based student and course management system in Java, backed by MySQL. Handles role-based accounts, enrollment, assessments, submissions, and grading — with most write operations routed through stored procedures.',
+        tags: ['Java', 'JDBC', 'MySQL', 'Stored Procedures'],
+        link: 'https://github.com/neera-jk/campus-course-manager',
+        type: 'Backend & DB',
+        metric: '20 tables · 12 stored procedures · layered architecture',
+        gradient: 'linear-gradient(135deg, #431407 0%, #7c2d12 50%, #c2410c 100%)',
+    },
 ]
 function Projects() {
     const handleTiltMove = useCallback((e) => {
