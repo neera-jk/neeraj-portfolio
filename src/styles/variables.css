@@ -52,7 +52,17 @@
     --btn-radius: 8px;
     --max-width: 900px;
 
-    /* ===== Hero rebuild tokens (dark defaults) ===== */
+    /* segmented nav */
+    --track-radius: 10px;
+    --thumb-radius: 7px;
+    --track-pad: 4px;
+    --seg-gap: 2px;
+    --lnk-px: 13px;
+    --lnk-py: 5px;
+    --seg-dur: 0.34s;
+    --seg-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* ===== Hero atmosphere & signal tokens (dark defaults) ===== */
     /* atmosphere strength: one dial for the whole background layer */
     --atmosphere: 0.55;
     /* dusk mesh lobes — every one fades to transparent */
@@ -72,18 +82,18 @@
     --led-high: #fda4af;
 }
 
-/* ===== Hero rebuild tokens (light overrides) ===== */
-/* additive names only, so the existing light block in index.css is untouched */
+/* ===== Hero atmosphere & signal tokens (light overrides) ===== */
 [data-theme='light'] {
-    --dusk-deep: rgba(191, 219, 254, 0.72);
-    --dusk-plum: rgba(216, 180, 254, 0.55);
-    --dusk-navy: rgba(224, 231, 255, 0.6);
-    --dusk-rose: rgba(253, 164, 175, 0.5);
-    --dusk-veil: rgba(240, 240, 248, 0.88);
-    --status-text: rgba(26, 24, 41, 0.52);
-    --status-dot: rgba(190, 18, 60, 0.7);
-    --wave-line: #2f2a55;
+    --atmosphere: 0.65;
+    --dusk-deep: rgba(67, 56, 202, 0.26);
+    --dusk-plum: rgba(147, 51, 234, 0.24);
+    --dusk-navy: rgba(99, 102, 241, 0.24);
+    --dusk-rose: rgba(225, 29, 72, 0.32);
+    --dusk-veil: rgba(226, 227, 241, 0.55);
+    --status-text: rgba(23, 22, 43, 0.55);
+    --status-dot: rgba(190, 18, 60, 0.8);
+    --wave-line: #221f45;
     --signal-to: #be123c;
-    --led-low: #dbeafe;
+    --led-low: #4f46e5;
     --led-high: #be123c;
 }

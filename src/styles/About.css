@@ -16,6 +16,7 @@
     position: relative;
     overflow: hidden;
     transition: border-color 0.3s;
+    box-shadow: var(--card-shadow);
 }
 
 .about-card::before {
@@ -29,7 +30,7 @@
 }
 
 .about-card:hover {
-    border-color: var(--accent-hover);
+    border-color: var(--border-hover);
 }
 
 .about-text {

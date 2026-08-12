@@ -23,19 +23,18 @@
     inset: 0;
     opacity: var(--atmosphere);
     background:
-        radial-gradient(30% 26% at 70% 1%, var(--dusk-deep) 0%, transparent 66%),
-        radial-gradient(24% 21% at 81% 9%, var(--dusk-deep) 0%, transparent 64%),
-        radial-gradient(21% 24% at 60% 12%, var(--dusk-deep) 0%, transparent 68%),
-        radial-gradient(17% 15% at 88% 2%, var(--dusk-deep) 0%, transparent 62%),
-        radial-gradient(26% 24% at 97% 34%, var(--dusk-plum) 0%, transparent 66%),
-        radial-gradient(20% 19% at 87% 44%, var(--dusk-plum) 0%, transparent 64%),
-        radial-gradient(15% 16% at 99% 24%, var(--dusk-plum) 0%, transparent 62%),
-        radial-gradient(34% 28% at 8% -4%, var(--dusk-navy) 0%, transparent 68%),
-        radial-gradient(24% 22% at 22% 5%, var(--dusk-navy) 0%, transparent 66%),
-        radial-gradient(19% 20% at 1% 10%, var(--dusk-navy) 0%, transparent 64%),
-        radial-gradient(22% 18% at 38% -2%, var(--dusk-navy) 0%, transparent 66%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 94%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 94%);
+        radial-gradient(38% 34% at 66% 4%, var(--dusk-deep) 0%, transparent 66%),
+        radial-gradient(30% 27% at 78% 15%, var(--dusk-deep) 0%, transparent 64%),
+        radial-gradient(26% 30% at 55% 10%, var(--dusk-deep) 0%, transparent 68%),
+        radial-gradient(34% 30% at 84% 35%, var(--dusk-plum) 0%, transparent 66%),
+        radial-gradient(27% 25% at 71% 47%, var(--dusk-plum) 0%, transparent 64%),
+        radial-gradient(22% 22% at 88% 22%, var(--dusk-plum) 0%, transparent 62%),
+        radial-gradient(40% 34% at 16% 2%, var(--dusk-navy) 0%, transparent 68%),
+        radial-gradient(30% 27% at 28% 15%, var(--dusk-navy) 0%, transparent 66%),
+        radial-gradient(24% 24% at 9% 21%, var(--dusk-navy) 0%, transparent 64%),
+        radial-gradient(27% 23% at 41% 5%, var(--dusk-navy) 0%, transparent 66%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
 }
 
 /* ---- Bloom wrapper: tracks the 820px content column ----
@@ -52,14 +51,14 @@
 /* ---- Bloom: two rose lobes near the interface end of the wave ---- */
 .atmosphere-bloom {
     position: absolute;
-    right: calc(var(--section-x) - 190px);
-    bottom: 4%;
-    width: 520px;
-    height: 340px;
+    right: calc(var(--section-x) - 240px);
+    bottom: 12%;
+    width: 620px;
+    height: 400px;
     transform: rotate(-8deg);
     filter: blur(70px);
     mix-blend-mode: screen;
-    opacity: calc(var(--atmosphere) * 0.85);
+    opacity: var(--atmosphere);
     background:
         radial-gradient(60% 60% at 35% 45%, var(--dusk-rose) 0%, transparent 70%),
         radial-gradient(55% 55% at 70% 60%, var(--dusk-rose) 0%, transparent 72%);
@@ -86,7 +85,7 @@
 
     100% {
         transform: rotate(-8deg) scale(1);
-        opacity: calc(var(--atmosphere) * 0.85);
+        opacity: var(--atmosphere);
     }
 }
 
@@ -94,7 +93,7 @@
 .atmosphere-veil {
     position: absolute;
     inset: 0;
-    background: radial-gradient(122% 96% at -8% 40%, var(--dusk-veil) 0%, transparent 56%);
+    background: radial-gradient(108% 86% at -12% 38%, var(--dusk-veil) 0%, transparent 48%);
 }
 
 /* ---- Grain: fractal noise to stop the soft gradients banding on 8-bit displays ---- */
@@ -108,9 +107,9 @@
 /* On narrow screens the bloom moves off the right edge and shrinks. */
 @media (max-width: 760px) {
     .atmosphere-bloom {
-        right: -120px;
-        width: 340px;
-        height: 240px;
+        right: -140px;
+        width: 400px;
+        height: 280px;
     }
 }
 

@@ -21,15 +21,16 @@
     align-items: center;
     gap: 16px;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--surface-soft);
     border: 0.5px solid var(--border);
     border-radius: 10px;
     transition: border-color 0.25s ease, background 0.25s ease;
+    box-shadow: var(--card-shadow);
 }
 
 .edu-row:hover {
     border-color: rgba(99, 102, 241, 0.25);
-    background: rgba(255, 255, 255, 0.035);
+    background: var(--surface-soft-hover);
 }
 
 /* ============ Year ============ */
@@ -132,6 +133,7 @@
     padding: 22px 24px;
     text-decoration: none;
     transition: background 0.25s ease, border-color 0.25s ease;
+    box-shadow: var(--card-shadow);
 }
 
 .pub-block:hover {
@@ -215,4 +217,37 @@
         width: auto;
         text-align: left;
     }
+}
+
+/* ============ Light theme ============ */
+/* Violet publication card, badges, and text. */
+[data-theme="light"] .pub-block {
+    background: #efe9fb;
+    border-color: rgba(124, 58, 237, 0.28);
+}
+
+[data-theme="light"] .pub-block:hover {
+    background: #e8e0f9;
+    border-color: rgba(124, 58, 237, 0.45);
+}
+
+[data-theme="light"] .edu-badge.pub {
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.1);
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+[data-theme="light"] .pub-publisher,
+[data-theme="light"] .pub-link {
+    color: #6d28d9;
+}
+
+[data-theme="light"] .pub-doi {
+    color: rgba(109, 40, 217, 0.6);
+}
+
+[data-theme="light"] .pub-tag {
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.25);
 }

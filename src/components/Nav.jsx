@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import '../styles/Nav.css'
 
 const SECTIONS = [
@@ -18,6 +18,10 @@ function Nav({ showLogo = true }) {
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
     const [carouselStart, setCarouselStart] = useState(0)
     const [isCompact, setIsCompact] = useState(false)
+    const [thumb, setThumb] = useState({ left: 0, width: 0, ready: false })
+
+    // One ref per section id, filled in as the buttons render.
+    const linkRefs = useRef({})
 
     // detect compact mode based on nav center width
     useEffect(() => {
@@ -61,6 +65,33 @@ function Nav({ showLogo = true }) {
         detect()
         return () => window.removeEventListener('scroll', detect)
     }, [])
+
+    // Measure the active button and move the thumb onto it. If the active
+    // section is outside the carousel window there is no button to measure, so
+    // the thumb hides instead of jumping to a stale position.
+    const measureThumb = useCallback(() => {
+        const el = linkRefs.current[active]
+        if (!el) {
+            setThumb(prev => ({ ...prev, ready: false }))
+            return
+        }
+        setThumb({ left: el.offsetLeft, width: el.offsetWidth, ready: true })
+    }, [active])
+
+    useEffect(() => {
+        measureThumb()
+    }, [measureThumb, isCompact, carouselStart])
+
+    // Label widths change when the webfont swaps in, so measure again then.
+    useEffect(() => {
+        if (!document.fonts) return
+        document.fonts.ready.then(measureThumb)
+    }, [measureThumb])
+
+    useEffect(() => {
+        window.addEventListener('resize', measureThumb)
+        return () => window.removeEventListener('resize', measureThumb)
+    }, [measureThumb])
 
     const toggleTheme = useCallback(() => {
         const overlay = document.createElement('div')
@@ -118,10 +149,16 @@ function Nav({ showLogo = true }) {
                 )}
 
                 <div className="nav-links">
+                    <span
+                        className={`nav-thumb${thumb.ready ? ' nav-thumb--ready' : ''}`}
+                        style={{ left: `${thumb.left}px`, width: `${thumb.width}px` }}
+                        aria-hidden="true"
+                    />
                     {visibleSections.map(s => (
                         <button
                             key={s.id}
                             type="button"
+                            ref={(el) => { linkRefs.current[s.id] = el }}
                             className={`nav-link ${active === s.id ? 'nav-link--active' : ''}`}
                             onClick={() => scrollTo(s.id)}
                         >
