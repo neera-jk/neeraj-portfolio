@@ -51,4 +51,39 @@
     --card-radius: clamp(10px, 2vw, 16px);
     --btn-radius: 8px;
     --max-width: 900px;
+
+    /* ===== Hero rebuild tokens (dark defaults) ===== */
+    /* atmosphere strength: one dial for the whole background layer */
+    --atmosphere: 0.55;
+    /* dusk mesh lobes — every one fades to transparent */
+    --dusk-deep: rgba(30, 58, 138, 0.5);
+    --dusk-plum: rgba(126, 34, 206, 0.3);
+    --dusk-navy: rgba(30, 27, 75, 0.55);
+    --dusk-rose: rgba(244, 63, 94, 0.32);
+    --dusk-veil: rgba(8, 8, 16, 0.86);
+    /* availability line */
+    --status-text: rgba(232, 230, 240, 0.44);
+    --status-dot: rgba(253, 164, 175, 0.8);
+    /* signal graphic */
+    --wave-line: rgba(233, 238, 255, 0.9);
+    --signal-to: #fda4af;
+    /* LED bars — must stay 6-digit hex, mixHex parses them directly */
+    --led-low: #1e3a8a;
+    --led-high: #fda4af;
+}
+
+/* ===== Hero rebuild tokens (light overrides) ===== */
+/* additive names only, so the existing light block in index.css is untouched */
+[data-theme='light'] {
+    --dusk-deep: rgba(191, 219, 254, 0.72);
+    --dusk-plum: rgba(216, 180, 254, 0.55);
+    --dusk-navy: rgba(224, 231, 255, 0.6);
+    --dusk-rose: rgba(253, 164, 175, 0.5);
+    --dusk-veil: rgba(240, 240, 248, 0.88);
+    --status-text: rgba(26, 24, 41, 0.52);
+    --status-dot: rgba(190, 18, 60, 0.7);
+    --wave-line: #2f2a55;
+    --signal-to: #be123c;
+    --led-low: #dbeafe;
+    --led-high: #be123c;
 }

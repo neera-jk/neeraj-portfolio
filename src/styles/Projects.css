@@ -25,8 +25,6 @@
     border-radius: var(--card-radius);
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    text-decoration: none;
     color: inherit;
     position: relative;
     will-change: transform;
@@ -52,11 +50,6 @@
 
 .proj-card:hover::before {
     opacity: 1;
-}
-
-.proj-card:hover .proj-arrow {
-    transform: translate(2px, -2px);
-    color: var(--accent-light);
 }
 
 /* Flipped layout (image on right) */
@@ -140,7 +133,8 @@
 .proj-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 6px;
 }
 
@@ -150,10 +144,42 @@
     color: var(--text-primary);
 }
 
-.proj-arrow {
-    color: var(--text-muted);
-    transition: all 0.22s;
+/* Small green "Live" badge, shown only on projects with a deployment */
+.proj-live-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--green);
+    background: var(--green-dim);
+    border: 0.5px solid var(--green-border);
+    padding: 2px 8px;
+    border-radius: 999px;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Pulsing dot inside the badge */
+.proj-live-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: projLivePulse 2s ease-in-out infinite;
+}
+
+@keyframes projLivePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
 }
 
 /* ============ Type badge ============ */
@@ -201,6 +227,54 @@
     background: var(--accent-dim);
     border: 0.5px solid var(--accent-border);
     color: var(--accent-light);
+}
+
+/* ============ Action links ============ */
+.proj-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.proj-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: var(--btn-radius);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    text-decoration: none;
+    border: 0.5px solid var(--border-hover);
+    color: var(--text-secondary);
+    transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+}
+
+.proj-link:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-border);
+    background: var(--accent-dim);
+}
+
+/* The live-demo link is the primary action, so it gets the accent fill */
+.proj-link--live {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+    color: var(--accent-light);
+}
+
+.proj-link--live:hover {
+    background: var(--accent-hover);
+    color: var(--accent-light);
+}
+
+.proj-link-arrow {
+    transition: transform 0.22s ease;
+}
+
+.proj-link:hover .proj-link-arrow {
+    transform: translate(2px, -2px);
 }
 
 /* ============ Responsive ============ */
