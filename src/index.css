@@ -14,6 +14,12 @@
   --card-shadow: none;
   --surface-soft: rgba(255, 255, 255, 0.025);
   --surface-soft-hover: rgba(255, 255, 255, 0.035);
+  /* expandable panel (Experience) */
+  --panel-open-bg: rgba(99, 102, 241, 0.06);
+  --panel-body-bg: rgba(99, 102, 241, 0.03);
+  --panel-border: rgba(99, 102, 241, 0.3);
+  --panel-divider: rgba(99, 102, 241, 0.14);
+  --panel-line: rgba(99, 102, 241, 0.25);
   --track-bg: rgba(255, 255, 255, 0.055);
   --track-border: rgba(255, 255, 255, 0.09);
   --thumb-bg: rgba(99, 102, 241, 0.2);
@@ -124,6 +130,11 @@ a {
   --card-shadow: 0 1px 2px rgba(23, 22, 43, 0.05), 0 16px 34px -20px rgba(23, 22, 43, 0.4);
   --surface-soft: #f7f7fd;
   --surface-soft-hover: #fdfdff;
+  --panel-open-bg: #ececfb;
+  --panel-body-bg: #f4f4fc;
+  --panel-border: rgba(79, 70, 229, 0.3);
+  --panel-divider: rgba(79, 70, 229, 0.16);
+  --panel-line: rgba(79, 70, 229, 0.22);
   --track-bg: #e8e9f4;
   --track-border: rgba(23, 22, 43, 0.11);
   --thumb-bg: rgba(79, 70, 229, 0.13);

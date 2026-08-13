@@ -115,7 +115,6 @@ function Experience() {
                                             }}
                                         >
                                             <div className="exp-body-inner">
-                                                <div className="exp-body-divider" />
                                                 <p className="exp-desc">{item.desc}</p>
                                                 {item.metric && (
                                                     <p className="exp-metric">{item.metric}</p>

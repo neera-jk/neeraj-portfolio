@@ -50,8 +50,8 @@
     width: 1px;
     background: linear-gradient(to bottom,
             transparent,
-            rgba(99, 102, 241, 0.25) 15%,
-            rgba(99, 102, 241, 0.25) 85%,
+            var(--panel-line) 15%,
+            var(--panel-line) 85%,
             transparent);
     transition: background 0.5s ease;
 }
@@ -65,29 +65,47 @@
 
 /* ============ Header ============ */
 .exp-card-header {
-    border-radius: 6px;
+    border-radius: 8px;
     background: var(--surface-soft);
-    border: 0.5px solid var(--border);
+    border: 1px solid var(--border);
     padding: 14px 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    transition: border-color 0.4s ease, background 0.4s ease;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     user-select: none;
+    position: relative;
 }
 
 .exp-card-header:hover {
     background: var(--surface-soft-hover);
-    border-color: rgba(99, 102, 241, 0.3);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
 }
 
 .exp-card-header.open {
-    background: rgba(99, 102, 241, 0.05);
-    border-color: rgba(99, 102, 241, 0.25);
+    background: var(--panel-open-bg);
+    border-color: var(--panel-border);
     border-bottom-color: transparent;
-    border-radius: 6px 6px 0 0;
+    border-radius: 8px 8px 0 0;
+    transform: none;
+}
+
+/* seam divider: full through the middle, softly fading at the edges */
+.exp-card-header.open::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(to right,
+            transparent,
+            var(--panel-border) 30%,
+            var(--panel-border) 70%,
+            transparent);
 }
 
 /* ============ Header content ============ */
@@ -153,20 +171,15 @@
 /* ============ Expanded body ============ */
 .exp-card-body {
     overflow: hidden;
-    border: 0.5px solid rgba(99, 102, 241, 0.25);
+    border: 1px solid var(--panel-border);
     border-top: none;
-    border-radius: 0 0 6px 6px;
-    background: rgba(99, 102, 241, 0.03);
+    border-radius: 0 0 8px 8px;
+    background: var(--panel-body-bg);
+    box-shadow: var(--card-shadow);
 }
 
 .exp-body-inner {
-    padding: 14px 18px 18px;
-}
-
-.exp-body-divider {
-    height: 0.5px;
-    background: rgba(99, 102, 241, 0.15);
-    margin-bottom: 14px;
+    padding: 16px 18px 18px;
 }
 
 .exp-desc {
@@ -225,15 +238,3 @@
     }
 }
 
-/* ============ Light theme ============ */
-/* Filled, bordered panel for the open header and expanded body. */
-[data-theme="light"] .exp-card-header.open {
-    background: #e7e7fa;
-    border-color: rgba(79, 70, 229, 0.35);
-}
-
-[data-theme="light"] .exp-card-body {
-    background: #f0f0fb;
-    border-color: rgba(79, 70, 229, 0.35);
-    box-shadow: var(--card-shadow);
-}
