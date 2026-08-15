@@ -15,7 +15,7 @@
 
 /* ---- Mesh: eleven radial lobes in three clusters ----
    Each lobe ends at transparent so the colour change is gradual everywhere.
-   No blurred border-radius boxes and no SVG displacement filters — both leave
+   No blurred border-radius boxes and no SVG displacement filters - both leave
    a visible rim, which is exactly what we are avoiding here. The bottom mask
    is what keeps the whole effect confined to the hero. */
 .atmosphere-mesh {

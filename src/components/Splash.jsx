@@ -29,7 +29,7 @@ function Splash({ onComplete, onLogoLanded }) {
                 const dx = target.left + target.width / 2 - (current.left + current.width / 2)
                 const dy = target.top + target.height / 2 - (current.top + current.height / 2)
 
-                // Logo stays fully visible — only transform, no opacity
+                // Logo stays fully visible - only transform, no opacity
                 splashLogo.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.0, 1)'
                 splashLogo.style.transform = `translate(${dx}px, ${dy}px) scale(1)`
             }

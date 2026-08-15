@@ -34,7 +34,7 @@ const PROJECTS = [
     },
     {
         title: 'Campus Course Manager',
-        desc: 'Console-based student and course management system in Java, backed by MySQL. Handles role-based accounts, enrollment, assessments, submissions, and grading — with most write operations routed through stored procedures.',
+        desc: 'Console-based student and course management system in Java, backed by MySQL. Handles role-based accounts, enrollment, assessments, submissions, and grading with most write operations routed through stored procedures.',
         tags: ['Java', 'JDBC', 'MySQL', 'Stored Procedures'],
         code: 'https://github.com/neera-jk/campus-course-manager',
         type: 'Backend & DB',

@@ -30,7 +30,7 @@
     z-index: 10001;
 }
 
-/* ============ Text styling — matches nav-logo exactly ============ */
+/* ============ Text styling - matches nav-logo exactly ============ */
 .splash-text {
     font-family: var(--font-sans);
     font-size: var(--fs-md);
@@ -58,7 +58,7 @@
     animation-delay: 0.55s;
 }
 
-/* Idle phase — fully revealed */
+/* Idle phase - fully revealed */
 .splash.idle .splash-text,
 .splash.flying .splash-text {
     clip-path: inset(0 0 0 0);

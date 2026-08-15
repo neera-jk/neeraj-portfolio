@@ -5,14 +5,14 @@ import { motion as Motion } from 'framer-motion'
 import '../styles/Hero.css'
 
 /* ==========================================================================
-   Signal graphic — the hero centrepiece.
+   Signal graphic - the hero centrepiece.
 
    One sine function drawn in two states: continuous on the left, sampled and
    held (quantised) on the right, so it reads as analog-to-digital conversion.
    The boundary between the two follows the cursor.
 
    All geometry is computed once at module load and rendered declaratively in
-   JSX. The animation loop only mutates a handful of attributes through refs —
+   JSX. The animation loop only mutates a handful of attributes through refs,
    it never rebuilds path strings per frame.
    ========================================================================== */
 
@@ -539,7 +539,7 @@ function Hero() {
 
     return (
         <section className="hero" id="hero">
-            {/* Corner registration marks — purely decorative */}
+            {/* Corner registration marks - purely decorative */}
             <span className="reg-mark reg-mark-tl" aria-hidden="true" />
             <span className="reg-mark reg-mark-tr" aria-hidden="true" />
             <span className="reg-mark reg-mark-bl" aria-hidden="true" />

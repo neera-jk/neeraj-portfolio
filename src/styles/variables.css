@@ -29,7 +29,7 @@
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-mono: 'Fira Code', 'Cascadia Code', monospace;
 
-    /* font sizes — scales with screen */
+    /* font sizes - scales with screen */
     --fs-xs: clamp(0.75rem, 1.2vw, 0.85rem);
     --fs-sm: clamp(0.85rem, 1.4vw, 0.95rem);
     --fs-base: clamp(0.95rem, 1.6vw, 1.1rem);
@@ -39,7 +39,7 @@
     --fs-2xl: clamp(1.65rem, 3vw, 2.25rem);
     --fs-3xl: clamp(2.25rem, 5vw, 3.25rem);
 
-    /* spacing — scales with screen */
+    /* spacing - scales with screen */
     --space-xs: clamp(0.5rem, 1vw, 0.75rem);
     --space-sm: clamp(0.75rem, 2vw, 1rem);
     --space-md: clamp(1rem, 3vw, 1.5rem);
@@ -65,7 +65,7 @@
     /* ===== Hero atmosphere & signal tokens (dark defaults) ===== */
     /* atmosphere strength: one dial for the whole background layer */
     --atmosphere: 0.55;
-    /* dusk mesh lobes — every one fades to transparent */
+    /* dusk mesh lobes - every one fades to transparent */
     --dusk-deep: rgba(30, 58, 138, 0.5);
     --dusk-plum: rgba(126, 34, 206, 0.3);
     --dusk-navy: rgba(30, 27, 75, 0.55);
@@ -77,7 +77,7 @@
     /* signal graphic */
     --wave-line: rgba(233, 238, 255, 0.9);
     --signal-to: #fda4af;
-    /* LED bars — must stay 6-digit hex, mixHex parses them directly */
+    /* LED bars - must stay 6-digit hex, mixHex parses them directly */
     --led-low: #1e3a8a;
     --led-high: #fda4af;
 }
