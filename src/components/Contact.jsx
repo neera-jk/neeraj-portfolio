@@ -72,12 +72,12 @@ function Contact() {
                     </h2>
                     <p className="contact-body">
                         You've seen the work. I'm a <strong>frontend engineer</strong> with
-                        two years of healthtech experience, currently finishing my{' '}
+                        a year of healthtech experience, currently finishing my{' '}
                         <strong>MS at Northeastern</strong>.<br /><br />
                         If you have a problem worth solving, I'd like to hear about it.
                     </p>
                     <div className="contact-availability">
-                        Open to internships · Boston or remote
+                        Open to full-time roles from May 2027 · Boston or remote
                     </div>
                 </div>
 

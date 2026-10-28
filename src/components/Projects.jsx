@@ -6,11 +6,9 @@ import '../styles/Projects.css'
 const PROJECTS = [
     {
         title: 'UI Inspector',
-        desc: 'Chrome extension for frontend QA. Traverses the React Fiber tree, captures screenshots via html2canvas, and exports structured bug reports. Used to catalog 106 UI bugs during co-op at LongevAI.',
+        desc: 'Chrome extension for frontend QA. Traverses the React Fiber tree, captures screenshots via html2canvas, and exports structured bug reports. Used to catalog 106 UI bugs during my internship at LongevAI.',
         tags: ['Vanilla JS', 'Chrome Ext', 'Manifest V3', 'html2canvas'],
         code: 'https://github.com/neera-jk/ui-inspector',
-        type: 'Chrome Extension',
-        metric: '106 bugs cataloged · shipped in 4 weeks',
         gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)',
     },
     {
@@ -19,8 +17,6 @@ const PROJECTS = [
         tags: ['React', 'Vite', 'Framer Motion', 'AI/ML'],
         live: 'https://llm-explainer-lyart.vercel.app/',
         code: 'https://github.com/neera-jk/llm-explainer',
-        type: 'Educational',
-        metric: '6 model families · 13 models · animated architecture diagrams',
         gradient: 'linear-gradient(135deg, #4a1d6a 0%, #7c3aed 50%, #a78bfa 100%)',
     },
     {
@@ -28,8 +24,6 @@ const PROJECTS = [
         desc: 'Massachusetts snow depth tracker built with React and Vite. Pulls live NOAA station data, visualizes snow depth across the state with a custom canvas gauge component and real-time station picker.',
         tags: ['React', 'Vite', 'NOAA API', 'Canvas'],
         code: 'https://github.com/neera-jk/masswater',
-        type: 'Full Stack',
-        metric: 'Live NOAA data · custom canvas gauge · real-time station picker',
         gradient: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #06b6d4 100%)',
     },
     {
@@ -37,8 +31,6 @@ const PROJECTS = [
         desc: 'Console-based student and course management system in Java, backed by MySQL. Handles role-based accounts, enrollment, assessments, submissions, and grading with most write operations routed through stored procedures.',
         tags: ['Java', 'JDBC', 'MySQL', 'Stored Procedures'],
         code: 'https://github.com/neera-jk/campus-course-manager',
-        type: 'Backend & DB',
-        metric: '20 tables · 12 stored procedures · layered architecture',
         gradient: 'linear-gradient(135deg, #431407 0%, #7c2d12 50%, #c2410c 100%)',
     },
 ]
@@ -94,9 +86,7 @@ function Projects() {
                                 <span className="proj-title">{p.title}</span>
                                 {p.live && <span className="proj-live-badge">Live</span>}
                             </div>
-                            <span className="proj-type">{p.type}</span>
                             <p className="proj-desc">{p.desc}</p>
-                            <p className="proj-metric">{p.metric}</p>
                             <div className="proj-tags">
                                 {p.tags.map(t => (
                                     <span className="proj-tag" key={t}>{t}</span>

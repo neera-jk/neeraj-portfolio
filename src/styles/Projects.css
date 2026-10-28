@@ -183,35 +183,12 @@
     }
 }
 
-/* ============ Type badge ============ */
-.proj-type {
-    font-size: var(--fs-xs);
-    color: var(--accent2);
-    background: var(--accent2-dim);
-    border: 0.5px solid var(--accent2-border);
-    padding: 2px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 10px;
-    width: fit-content;
-}
-
 /* ============ Description ============ */
 .proj-desc {
     font-size: var(--fs-sm);
     color: var(--text-muted);
     line-height: 1.65;
-    margin-bottom: 8px;
-}
-
-/* ============ Metric ============ */
-.proj-metric {
-    font-size: var(--fs-xs);
-    color: var(--accent-light);
-    opacity: 0.8;
     margin-bottom: 12px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
 }
 
 /* ============ Tags ============ */

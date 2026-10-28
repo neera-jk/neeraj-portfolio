@@ -3,52 +3,35 @@ import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Experience.css'
 const ITEMS = [
     {
+        role: 'Graduate Teaching Assistant',
+        date: 'Sep 2026 – Present',
+        company: 'Northeastern University · Human-Computer Interaction',
+        desc: 'Mentor 6 student teams (25 students) through a semester-long user-centered design project, from problem framing and user interview analysis to low- and high-fidelity prototypes. Grade team and individual deliverables against a standardized rubric and give written feedback at each project milestone.',
+        current: true,
+    },
+    {
         role: 'AI Developer Intern',
         date: 'Feb – May 2026',
         company: 'LongevAI Inc.',
-        desc: 'Built and overhauled 5 role-based dashboards on a full-stack geriatric care platform. Built UI Inspector, a Chrome extension that traverses the React Fiber tree, captures screenshots, and exports structured bug reports, cataloging 106 UI bugs across the codebase.',
-        metric: '5 dashboards overhauled · 106 bugs cataloged',
-        tags: [
-            { label: 'React' },
-            { label: 'Next.js' },
-            { label: 'Node.js' },
-            { label: 'GraphQL', cls: 'cyan' },
-        ],
+        desc: 'Built 10 role-based dashboards in React and Vite for a geriatric care platform, with a reusable dashboard shell that sped up each new dashboard after the first. Built a JavaScript UI auditing tool for a client\'s 5-role veterinary clinic management system and documented 106 bugs, producing the QA report the team adopted as its main remediation reference. Redesigned 8 screens and led a full visual rebrand of the client system with a unified design token system, approved and adopted by the client.',
     },
     {
         role: 'Software Engineering Intern',
         date: 'May – Aug 2024',
         company: 'Latitude Health',
-        desc: 'Built a UM Reviewer dashboard end-to-end for a clinical utilization management platform. Designed 9 reusable React components and shipped 4 pages including SSO login flow.',
-        metric: '9 components · 4 pages shipped · SSO login',
-        tags: [
-            { label: 'React' },
-            { label: 'JavaScript' },
-            { label: 'Figma', cls: 'n' },
-            { label: 'Python APIs', cls: 'cyan' },
-        ],
+        desc: 'Delivered a Utilization Management reviewer dashboard in 2 weeks from Figma designs. Built 9 reusable React components (tooltip, status, and priority indicators) adopted across multiple pages, and developed 4 user-facing pages, including SSO login and error-handling flows, supporting the company\'s first client onboarding.',
     },
     {
         role: 'Web Developer',
         date: 'Oct 2022 – Nov 2023',
         company: 'Wyoming Global Research',
-        desc: 'Built a ChatGPT-powered chatbot to automate student queries on the company website. Evaluated 3 integration frameworks and shipped the highest-performing solution.',
-        tags: [
-            { label: 'WordPress' },
-            { label: 'JavaScript', cls: 'n' },
-            { label: 'ChatGPT API', cls: 'cyan' },
-        ],
+        desc: 'Integrated a ChatGPT-powered chatbot into educational websites after evaluating 3 frameworks on response latency, usability, and integration complexity.',
     },
     {
         role: 'Software Intern',
         date: 'Apr – Aug 2022',
         company: 'Cognizant',
-        desc: 'Automated test suites with Selenium and Java across 4 landing pages for 3 client projects, improving regression testing coverage.',
-        tags: [
-            { label: 'Selenium', cls: 'n' },
-            { label: 'Java', cls: 'n' },
-            { label: 'SQL', cls: 'n' },
-        ],
+        desc: 'Ran automated test suites in Selenium, Java, and XPath to validate UI behavior and frontend-backend data integrity across 4 landing pages as part of a 6-engineer Agile team.',
     },
 ]
 function Experience() {
@@ -116,19 +99,6 @@ function Experience() {
                                         >
                                             <div className="exp-body-inner">
                                                 <p className="exp-desc">{item.desc}</p>
-                                                {item.metric && (
-                                                    <p className="exp-metric">{item.metric}</p>
-                                                )}
-                                                <div className="exp-tags">
-                                                    {item.tags.map((t) => (
-                                                        <span
-                                                            key={t.label}
-                                                            className={`exp-tag${t.cls ? ' ' + t.cls : ''}`}
-                                                        >
-                                                            {t.label}
-                                                        </span>
-                                                    ))}
-                                                </div>
                                             </div>
                                         </motion.div>
                                     )}

@@ -39,11 +39,6 @@
     color: var(--text-secondary);
 }
 
-.hi {
-    color: var(--accent-light);
-    font-weight: 500;
-}
-
 .about-divider {
     height: 0.5px;
     background: var(--border);

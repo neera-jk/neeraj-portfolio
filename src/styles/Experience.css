@@ -186,45 +186,6 @@
     font-size: var(--fs-sm);
     color: var(--text-secondary);
     line-height: 1.75;
-    margin-bottom: 12px;
-}
-
-.exp-metric {
-    font-size: var(--fs-xs);
-    color: var(--accent-light);
-    opacity: 0.8;
-    margin-bottom: 14px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-}
-
-/* ============ Tags ============ */
-.exp-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.exp-tag {
-    font-size: var(--fs-xs);
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent-border);
-    color: var(--accent-light);
-    transition: background 0.2s;
-}
-
-.exp-tag.cyan {
-    background: var(--accent2-dim);
-    border-color: var(--accent2-border);
-    color: var(--accent2-light);
-}
-
-.exp-tag.n {
-    background: var(--bg-inset);
-    border-color: var(--border);
-    color: var(--text-muted);
 }
 
 /* ============ Responsive ============ */

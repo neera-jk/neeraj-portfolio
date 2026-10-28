@@ -7,9 +7,10 @@ import '../styles/Hero.css'
 /* ==========================================================================
    Signal graphic - the hero centrepiece.
 
-   One sine function drawn in two states: continuous on the left, sampled and
-   held (quantised) on the right, so it reads as analog-to-digital conversion.
-   The boundary between the two follows the cursor.
+   One data series drawn in two states: raw and noisy on the left, cleaned
+   into a smooth trend line and a bar chart on the right, so it reads as messy
+   data becoming something readable. The boundary between the two follows the
+   cursor.
 
    All geometry is computed once at module load and rendered declaratively in
    JSX. The animation loop only mutates a handful of attributes through refs,
@@ -19,35 +20,31 @@ import '../styles/Hero.css'
 /* ---- Fixed geometry (SVG user units) ---- */
 const VIEW_W = 1200
 const VIEW_H = 180
-const AXIS = 171     // baseline the LED bars sit on
-const BASE = 84      // vertical centre of the wave
-const AMP = 52       // sine amplitude
-const WAVELEN = 300  // sine wavelength
-const SAMPLE = 26    // one sample-and-hold interval
-const LEVELS = 16    // amplitude quantisation step
+const AXIS = 171         // baseline the bars sit on
+const BASE = 96          // vertical centre of the trend
+const RAW_STEP = 5       // horizontal spacing of the raw data points
+const NOISE = 16         // spread of the raw jitter
+const SPIKE_CHANCE = 0.05 // share of raw points that become outliers
+const SAMPLE = 26        // width of one bar slot
+const GRID_LINES = [36, 81, 126]
 
 /* ---- Tuned animation constants ---- */
 const REVEAL_MS = 1660   // left-to-right draw on load
-const QUANT_MS = 2100    // sine crystallising into steps
+const CLEAN_MS = 2100    // raw data resolving into the clean side
 const FOLLOW = 0.28      // how hard the split chases the cursor
 const REST = 0.5         // where the split parks when idle
-const CASCADE = 1.7      // how fast segments light bottom to top
 const FADE = 64          // width of the crossfade at the split
 const BAR_COUNT = 7
-const INSET_SAMPLES = 0  // whole samples in from the right edge
 const BAR_GAP = 5
-const SEG_PITCH = 15     // target segment spacing
-const SEG_FILL = 0.71    // segment height as a fraction of pitch
-const RAMP_CURVE = 0.4   // where along the bar the colour brightens
-const OPACITY_FLOOR = 0.53 // opacity of the dimmest segment
+const BAR_EASE = 0.16    // how far a bar moves toward its target per frame
 
-/* ---- The wave itself ---- */
-function sineAt(x) {
-    return BASE - AMP * Math.sin((x / WAVELEN) * Math.PI * 2)
-}
-
-function quantAt(x) {
-    return BASE - Math.round((BASE - sineAt(x)) / LEVELS) * LEVELS
+/* ---- The signal itself: a few slow waves plus a gentle upward drift ---- */
+function trendAt(x) {
+    return BASE
+        - 30 * Math.sin((x / 520) * Math.PI * 2 + 0.4)
+        - 14 * Math.sin((x / 230) * Math.PI * 2 + 2.1)
+        - 5 * Math.sin((x / 90) * Math.PI * 2 + 0.7)
+        - (22 * x) / VIEW_W
 }
 
 /* ---- Small maths helpers ---- */
@@ -67,142 +64,89 @@ function easeInOutCubic(p) {
     }
 }
 
-// Linearly interpolate between two 6-digit hex colours. The LED tokens are
-// always 6-digit hex, so this can parse them directly.
-function mixHex(from, to, t) {
-    const fromR = parseInt(from.slice(1, 3), 16)
-    const fromG = parseInt(from.slice(3, 5), 16)
-    const fromB = parseInt(from.slice(5, 7), 16)
-    const toR = parseInt(to.slice(1, 3), 16)
-    const toG = parseInt(to.slice(3, 5), 16)
-    const toB = parseInt(to.slice(5, 7), 16)
-    const r = Math.round(fromR + (toR - fromR) * t)
-    const g = Math.round(fromG + (toG - fromG) * t)
-    const b = Math.round(fromB + (toB - fromB) * t)
-    return `rgb(${r}, ${g}, ${b})`
+// Seeded random so the noise looks identical on every load.
+function mulberry32(seed) {
+    return function next() {
+        seed = (seed + 0x6d2b79f5) | 0
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    }
 }
 
-/* ---- Precompute the analog polyline (sine sampled every 2px) ---- */
-function buildAnalogPoints() {
+/* ---- Precompute the raw polyline (trend plus jitter and a few spikes) ---- */
+function buildRawPoints() {
+    const random = mulberry32(7)
+    const points = []
+    for (let x = 0; x <= VIEW_W; x += RAW_STEP) {
+        // Summing three uniforms gives a rough bell curve around the trend.
+        let noise = (random() + random() + random() - 1.5) * NOISE
+        if (random() < SPIKE_CHANCE) {
+            const direction = random() < 0.5 ? -1 : 1
+            noise += direction * (18 + random() * 16)
+        }
+        const y = clamp(trendAt(x) + noise, 8, AXIS - 8)
+        points.push(`${x},${y.toFixed(1)}`)
+    }
+    return points.join(' ')
+}
+
+/* ---- Precompute the clean polyline (trend sampled every 2px) ---- */
+function buildCleanPoints() {
     const points = []
     for (let x = 0; x <= VIEW_W; x += 2) {
-        points.push(`${x},${sineAt(x).toFixed(2)}`)
+        points.push(`${x},${trendAt(x).toFixed(2)}`)
     }
     return points.join(' ')
 }
 
-/* ---- Precompute the staircase polyline (sample and hold) ----
-   For each sample x the quantised value is held flat across [x, x + SAMPLE];
-   the jump to the next value happens as a vertical segment at the next x. */
-function buildStairPoints() {
-    const points = []
-    const lastSample = Math.floor(VIEW_W / SAMPLE)
-    for (let n = 0; n <= lastSample; n++) {
-        const x = n * SAMPLE
-        const y = quantAt(x).toFixed(2)
-        points.push(`${x},${y}`)
-        points.push(`${x + SAMPLE},${y}`)
-    }
-    return points.join(' ')
-}
-
-/* ---- Precompute every sample point (for the dots and ticks) ---- */
-function buildSamples() {
-    const samples = []
-    for (let n = 0; n * SAMPLE <= VIEW_W; n++) {
-        const x = n * SAMPLE
-        samples.push({ x, y: quantAt(x) })
-    }
-    return samples
-}
-
-/* ---- Precompute the LED bars ----
-   Bars must sit on the sample grid so each bar's top matches the single
-   staircase step above it. The per-bar segment pitch is derived from the bar's
-   own span so the stack aligns at both the axis and the staircase line. */
+/* ---- Precompute the bars ----
+   One bar per slot along the right edge, each topped by the trend at the
+   slot's centre so the clean line passes through every bar top. */
 function buildBars() {
-    const lastFullSample = Math.floor(VIEW_W / SAMPLE) - 1
-    const rightIndex = lastFullSample - INSET_SAMPLES
-    const firstIndex = rightIndex - BAR_COUNT + 1
-
+    const lastIndex = Math.floor(VIEW_W / SAMPLE) - 1
     const bars = []
-    for (let index = firstIndex; index <= rightIndex; index++) {
+    for (let index = lastIndex - BAR_COUNT + 1; index <= lastIndex; index++) {
         const xSample = index * SAMPLE
-        const y = quantAt(xSample)
-        const span = AXIS - y
-        const count = Math.max(2, Math.round(span / SEG_PITCH))
-        const pitch = span / count
-        const segHeight = pitch * SEG_FILL
-        const width = SAMPLE - BAR_GAP
-        const xRect = xSample + BAR_GAP / 2
-
-        const segments = []
-        for (let s = 0; s < count; s++) {
-            const segY = AXIS - (s + 1) * pitch
-            // The bottom segment is a full pitch tall so the bar is seated on
-            // the axis; every other segment uses the shorter fill height.
-            const height = s === 0 ? pitch : segHeight
-            const ramp = count === 1 ? 1 : s / (count - 1)
-            const baseOpacity = OPACITY_FLOOR + (1 - OPACITY_FLOOR) * Math.pow(ramp, 0.9)
-            segments.push({ x: xRect, y: segY, width, height, ramp, baseOpacity, index: s })
-        }
-        bars.push({ xSample, count, segments })
+        const top = trendAt(xSample + SAMPLE / 2)
+        bars.push({
+            xSample,
+            x: xSample + BAR_GAP / 2,
+            y: top,
+            width: SAMPLE - BAR_GAP,
+            height: AXIS - top,
+        })
     }
     return bars
 }
 
-const ANALOG_POINTS = buildAnalogPoints()
-const STAIR_POINTS = buildStairPoints()
-const SAMPLES = buildSamples()
+const RAW_POINTS = buildRawPoints()
+const CLEAN_POINTS = buildCleanPoints()
 const BARS = buildBars()
-
-// Flattened view of every segment, in the same order they are rendered, so the
-// animation loop can walk it in lockstep with the ref array.
-const FLAT_SEGMENTS = []
-BARS.forEach((bar, barIndex) => {
-    bar.segments.forEach((segment) => {
-        FLAT_SEGMENTS.push({
-            barIndex,
-            indexInBar: segment.index,
-            count: bar.count,
-            ramp: segment.ramp,
-            baseOpacity: segment.baseOpacity,
-        })
-    })
-})
-
-// Starting index of each bar's first segment within FLAT_SEGMENTS, so the
-// render can address ref slots without a running counter.
-const BAR_FLAT_OFFSETS = []
-let flatRunning = 0
-BARS.forEach((bar) => {
-    BAR_FLAT_OFFSETS.push(flatRunning)
-    flatRunning += bar.count
-})
 
 const REST_SPLIT_X = REST * VIEW_W
 
 function SignalGraphic() {
     const svgRef = useRef(null)
     const clipRectRef = useRef(null)
-    const gradAnalogRef = useRef(null)
-    const gradDigitalRef = useRef(null)
+    const gradRawRef = useRef(null)
+    const gradCleanRef = useRef(null)
     const playLineRef = useRef(null)
     const playDotRef = useRef(null)
-    const segRefs = useRef([])
+    const barRefs = useRef([])
     const hintRef = useRef(null)
 
     useEffect(() => {
         const svg = svgRef.current
         const clipRect = clipRectRef.current
-        const gradAnalog = gradAnalogRef.current
-        const gradDigital = gradDigitalRef.current
+        const gradRaw = gradRawRef.current
+        const gradClean = gradCleanRef.current
         const playLine = playLineRef.current
         const playDot = playDotRef.current
 
         // Live animation state kept out of React so frames never re-render.
         const state = {
-            phase: 'reveal',       // 'reveal' -> 'quantise' -> 'live'
+            phase: 'reveal',       // 'reveal' -> 'clean' -> 'live'
             phaseStart: null,
             split: 1,              // boundary position as a fraction 0..1
             target: REST,
@@ -210,48 +154,36 @@ function SignalGraphic() {
             frame: null,
         }
 
-        // Paint each segment's colour from the current theme's LED tokens.
-        function paintColors() {
-            const styles = getComputedStyle(document.documentElement)
-            const low = styles.getPropertyValue('--led-low').trim()
-            const high = styles.getPropertyValue('--led-high').trim()
-            for (let i = 0; i < FLAT_SEGMENTS.length; i++) {
-                const node = segRefs.current[i]
-                if (!node) continue
-                const segment = FLAT_SEGMENTS[i]
-                node.style.fill = mixHex(low, high, Math.pow(segment.ramp, RAMP_CURVE))
-            }
-        }
-
         // Move the crossfade gradients and the playhead to the current split.
         function applySplit() {
             const splitX = state.split * VIEW_W
-            gradAnalog.setAttribute('x1', String(splitX - FADE))
-            gradAnalog.setAttribute('x2', String(splitX + FADE))
-            gradDigital.setAttribute('x1', String(splitX - FADE))
-            gradDigital.setAttribute('x2', String(splitX + FADE))
+            gradRaw.setAttribute('x1', String(splitX - FADE))
+            gradRaw.setAttribute('x2', String(splitX + FADE))
+            gradClean.setAttribute('x1', String(splitX - FADE))
+            gradClean.setAttribute('x2', String(splitX + FADE))
             playLine.setAttribute('x1', String(splitX))
             playLine.setAttribute('x2', String(splitX))
             playDot.setAttribute('cx', String(splitX))
-            playDot.setAttribute('cy', String(sineAt(splitX)))
+            playDot.setAttribute('cy', String(trendAt(splitX)))
         }
 
-        // Ease each bar's presence toward its wanted value, then light the
-        // segments bottom to top from that presence.
+        // Grow a bar up from the axis in proportion to its presence.
+        function paintBar(index) {
+            const node = barRefs.current[index]
+            if (!node) return
+            const p = easeOutCubic(clamp(state.presence[index], 0, 1))
+            node.style.opacity = String(p)
+            node.style.transform = `scaleY(${0.1 + 0.9 * p})`
+        }
+
+        // Ease each bar's presence toward its wanted value: shown once the
+        // split has passed to its left, hidden otherwise.
         function updateBars() {
             const splitX = state.split * VIEW_W
             for (let b = 0; b < BARS.length; b++) {
                 const wanted = BARS[b].xSample >= splitX ? 1 : 0
-                state.presence[b] += (wanted - state.presence[b]) * 0.16
-            }
-            for (let i = 0; i < FLAT_SEGMENTS.length; i++) {
-                const node = segRefs.current[i]
-                if (!node) continue
-                const segment = FLAT_SEGMENTS[i]
-                const presence = state.presence[segment.barIndex]
-                const local = clamp(presence * (segment.count + CASCADE) - segment.indexInBar, 0, 1)
-                node.style.opacity = String(segment.baseOpacity * local)
-                node.style.transform = `scaleY(${0.25 + 0.75 * local})`
+                state.presence[b] += (wanted - state.presence[b]) * BAR_EASE
+                paintBar(b)
             }
         }
 
@@ -274,18 +206,18 @@ function SignalGraphic() {
             const elapsed = now - state.phaseStart
 
             if (state.phase === 'reveal') {
-                // Widen the clip rect so the wave draws left to right.
+                // Widen the clip rect so the raw data draws left to right.
                 const p = clamp(elapsed / REVEAL_MS, 0, 1)
                 clipRect.setAttribute('width', String(easeOutCubic(p) * VIEW_W))
                 if (p >= 1) {
-                    state.phase = 'quantise'
+                    state.phase = 'clean'
                     state.phaseStart = now
                 }
-            } else if (state.phase === 'quantise') {
+            } else if (state.phase === 'clean') {
                 clipRect.setAttribute('width', String(VIEW_W))
                 // Drive the split from the far right in to its resting place,
-                // so the staircase materialises from the right.
-                const p = clamp(elapsed / QUANT_MS, 0, 1)
+                // so the clean line and bars resolve from the right.
+                const p = clamp(elapsed / CLEAN_MS, 0, 1)
                 state.split = 1 + (REST - 1) * easeInOutCubic(p)
                 if (p >= 1) {
                     state.phase = 'live'
@@ -325,15 +257,7 @@ function SignalGraphic() {
             const splitX = state.split * VIEW_W
             for (let b = 0; b < BARS.length; b++) {
                 state.presence[b] = BARS[b].xSample >= splitX ? 1 : 0
-            }
-            for (let i = 0; i < FLAT_SEGMENTS.length; i++) {
-                const node = segRefs.current[i]
-                if (!node) continue
-                const segment = FLAT_SEGMENTS[i]
-                const presence = state.presence[segment.barIndex]
-                const local = clamp(presence * (segment.count + CASCADE) - segment.indexInBar, 0, 1)
-                node.style.opacity = String(segment.baseOpacity * local)
-                node.style.transform = `scaleY(${0.25 + 0.75 * local})`
+                paintBar(b)
             }
         }
 
@@ -354,16 +278,7 @@ function SignalGraphic() {
             startLoop()
         }
 
-        // Repaint bar colours when the theme toggle flips data-theme.
-        const themeObserver = new MutationObserver(paintColors)
-
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-        paintColors()
-        themeObserver.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['data-theme'],
-        })
 
         if (reducedMotion) {
             // No loop, no pointer tracking: show the finished state and hide
@@ -380,7 +295,6 @@ function SignalGraphic() {
         }
 
         return () => {
-            themeObserver.disconnect()
             if (!reducedMotion) {
                 svg.removeEventListener('pointermove', handlePointerMove)
                 svg.removeEventListener('pointerleave', handlePointerLeave)
@@ -400,13 +314,13 @@ function SignalGraphic() {
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
                 preserveAspectRatio="none"
                 role="img"
-                aria-label="A sine wave being converted from a continuous analog signal on the left into sampled digital steps on the right."
+                aria-label="A noisy data line on the left that becomes a smooth trend line and a bar chart on the right."
             >
                 <defs>
-                    {/* white -> black: keeps the analog side visible left of the split */}
+                    {/* white -> black: keeps the raw side visible left of the split */}
                     <linearGradient
-                        ref={gradAnalogRef}
-                        id="signal-grad-analog"
+                        ref={gradRawRef}
+                        id="signal-grad-raw"
                         gradientUnits="userSpaceOnUse"
                         x1={REST_SPLIT_X - FADE}
                         y1="0"
@@ -416,10 +330,10 @@ function SignalGraphic() {
                         <stop offset="0" stopColor="#fff" />
                         <stop offset="1" stopColor="#000" />
                     </linearGradient>
-                    {/* black -> white: complementary, keeps the digital side visible right of the split */}
+                    {/* black -> white: complementary, keeps the clean side visible right of the split */}
                     <linearGradient
-                        ref={gradDigitalRef}
-                        id="signal-grad-digital"
+                        ref={gradCleanRef}
+                        id="signal-grad-clean"
                         gradientUnits="userSpaceOnUse"
                         x1={REST_SPLIT_X - FADE}
                         y1="0"
@@ -429,11 +343,16 @@ function SignalGraphic() {
                         <stop offset="0" stopColor="#000" />
                         <stop offset="1" stopColor="#fff" />
                     </linearGradient>
-                    <mask id="signal-mask-analog" maskUnits="userSpaceOnUse" x="0" y="0" width={VIEW_W} height={VIEW_H}>
-                        <rect x="0" y="0" width={VIEW_W} height={VIEW_H} fill="url(#signal-grad-analog)" />
+                    {/* Bar fill, bottom to top; stop colours come from the theme tokens */}
+                    <linearGradient id="signal-grad-bar" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0" className="bar-stop-low" />
+                        <stop offset="1" className="bar-stop-high" />
+                    </linearGradient>
+                    <mask id="signal-mask-raw" maskUnits="userSpaceOnUse" x="0" y="0" width={VIEW_W} height={VIEW_H}>
+                        <rect x="0" y="0" width={VIEW_W} height={VIEW_H} fill="url(#signal-grad-raw)" />
                     </mask>
-                    <mask id="signal-mask-digital" maskUnits="userSpaceOnUse" x="0" y="0" width={VIEW_W} height={VIEW_H}>
-                        <rect x="0" y="0" width={VIEW_W} height={VIEW_H} fill="url(#signal-grad-digital)" />
+                    <mask id="signal-mask-clean" maskUnits="userSpaceOnUse" x="0" y="0" width={VIEW_W} height={VIEW_H}>
+                        <rect x="0" y="0" width={VIEW_W} height={VIEW_H} fill="url(#signal-grad-clean)" />
                     </mask>
                     <clipPath id="signal-reveal" clipPathUnits="userSpaceOnUse">
                         <rect ref={clipRectRef} x="0" y="0" width="0" height={VIEW_H} />
@@ -441,54 +360,38 @@ function SignalGraphic() {
                 </defs>
 
                 <g clipPath="url(#signal-reveal)">
-                    {/* Digital side, behind the bars: only the faint sample ticks,
-                        so the LED stacks stay uncluttered */}
-                    <g mask="url(#signal-mask-digital)">
-                        {SAMPLES.map((sample) => (
-                            <line
-                                key={`tick-${sample.x}`}
-                                className="wave-tick"
-                                x1={sample.x}
-                                y1={sample.y}
-                                x2={sample.x}
-                                y2={AXIS}
-                            />
+                    {/* Clean side, behind everything: faint dashboard gridlines and axis */}
+                    <g mask="url(#signal-mask-clean)">
+                        {GRID_LINES.map((y) => (
+                            <line key={`grid-${y}`} className="grid-line" x1="0" y1={y} x2={VIEW_W} y2={y} />
                         ))}
+                        <line className="grid-axis" x1="0" y1={AXIS} x2={VIEW_W} y2={AXIS} />
                     </g>
 
-                    {/* Interface end: stacked LED bars */}
-                    {BARS.map((bar, barIndex) => (
-                        <g key={`bar-${barIndex}`} className="led-bar">
-                            {bar.segments.map((segment) => {
-                                const refIndex = BAR_FLAT_OFFSETS[barIndex] + segment.index
-                                return (
-                                    <rect
-                                        key={`seg-${barIndex}-${segment.index}`}
-                                        ref={(el) => { segRefs.current[refIndex] = el }}
-                                        className="led-seg"
-                                        x={segment.x}
-                                        y={segment.y}
-                                        width={segment.width}
-                                        height={segment.height}
-                                        style={{ opacity: 0 }}
-                                    />
-                                )
-                            })}
-                        </g>
+                    {/* Interface end: the bar chart */}
+                    {BARS.map((bar, index) => (
+                        <rect
+                            key={`bar-${bar.xSample}`}
+                            ref={(el) => { barRefs.current[index] = el }}
+                            className="signal-bar"
+                            x={bar.x}
+                            y={bar.y}
+                            width={bar.width}
+                            height={bar.height}
+                            rx="2"
+                            fill="url(#signal-grad-bar)"
+                            style={{ opacity: 0 }}
+                        />
                     ))}
 
-                    {/* Digital side, over the bars: the staircase line and sample
-                        dots, so the line cleanly traces every bar top */}
-                    <g mask="url(#signal-mask-digital)">
-                        <polyline className="wave-stair" points={STAIR_POINTS} />
-                        {SAMPLES.map((sample) => (
-                            <circle key={`dot-${sample.x}`} className="wave-dot" cx={sample.x} cy={sample.y} r="2" />
-                        ))}
+                    {/* Clean side, over the bars: the smoothed trend line */}
+                    <g mask="url(#signal-mask-clean)">
+                        <polyline className="wave-clean" points={CLEAN_POINTS} />
                     </g>
 
-                    {/* Analog side: the continuous sine */}
-                    <g mask="url(#signal-mask-analog)">
-                        <polyline className="wave-analog" points={ANALOG_POINTS} />
+                    {/* Raw side: the noisy data */}
+                    <g mask="url(#signal-mask-raw)">
+                        <polyline className="wave-raw" points={RAW_POINTS} />
                     </g>
 
                     {/* Playhead sitting on the split */}
@@ -500,20 +403,20 @@ function SignalGraphic() {
                         x2={REST_SPLIT_X}
                         y2={VIEW_H}
                     />
-                    <circle ref={playDotRef} className="play-dot" cx={REST_SPLIT_X} cy={sineAt(REST_SPLIT_X)} r="2.6" />
+                    <circle ref={playDotRef} className="play-dot" cx={REST_SPLIT_X} cy={trendAt(REST_SPLIT_X)} r="2.6" />
                 </g>
             </svg>
 
             <div className="signal-labels">
                 <div className="signal-row signal-row-top">
-                    <span className="signal-analog">Analog</span>
+                    <span className="signal-raw">Raw data</span>
                     <span className="signal-interface">Interface</span>
                 </div>
                 <div className="signal-row signal-row-bottom">
                     <span className="signal-caption">
-                        One wave, <em>two disciplines</em>.
+                        I turn messy data into <em>interfaces</em> people can actually use.
                     </span>
-                    <span className="signal-hint" ref={hintRef}>move across the wave</span>
+                    <span className="signal-hint" ref={hintRef}>hover the wave</span>
                 </div>
             </div>
         </div>
@@ -552,7 +455,7 @@ function Hero() {
                 transition={{ duration: 0.75, delay: 0.05, ease: EASE }}
             >
                 <span className="status-dot" />
-                Open to fall 2026 co-ops and internships
+                Open to full-time SWE roles from May 2027
             </Motion.div>
 
             <Motion.div

@@ -167,38 +167,39 @@
     touch-action: pan-y;
 }
 
-.wave-analog {
+.wave-raw {
     fill: none;
     stroke: var(--wave-line);
-    stroke-width: 1.5;
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+    opacity: 0.55;
+    vector-effect: non-scaling-stroke;
+    shape-rendering: geometricPrecision;
+}
+
+.wave-clean {
+    fill: none;
+    stroke: var(--wave-line);
+    stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.8;
+    opacity: 0.95;
     vector-effect: non-scaling-stroke;
     shape-rendering: geometricPrecision;
 }
 
-.wave-stair {
-    fill: none;
-    stroke: var(--wave-line);
-    stroke-width: 1.7;
-    stroke-linejoin: miter;
-    opacity: 0.92;
-    vector-effect: non-scaling-stroke;
-    shape-rendering: geometricPrecision;
-}
-
-.wave-dot {
-    fill: var(--wave-line);
-    shape-rendering: geometricPrecision;
-}
-
-.wave-tick {
+.grid-line {
     stroke: var(--wave-line);
     stroke-width: 1;
-    opacity: 0.14;
+    opacity: 0.1;
     vector-effect: non-scaling-stroke;
-    shape-rendering: geometricPrecision;
+}
+
+.grid-axis {
+    stroke: var(--wave-line);
+    stroke-width: 1;
+    opacity: 0.22;
+    vector-effect: non-scaling-stroke;
 }
 
 .play-line {
@@ -215,11 +216,19 @@
     shape-rendering: geometricPrecision;
 }
 
-.led-seg {
+.signal-bar {
     /* scaleY from the bottom edge, driven per frame from JS */
     transform-box: fill-box;
     transform-origin: bottom;
     shape-rendering: geometricPrecision;
+}
+
+.bar-stop-low {
+    stop-color: var(--led-low);
+}
+
+.bar-stop-high {
+    stop-color: var(--led-high);
 }
 
 /* ============ Signal labels ============ */
@@ -243,7 +252,7 @@
     border-top: 0.5px solid var(--border);
 }
 
-.signal-analog {
+.signal-raw {
     color: var(--text-muted);
 }
 
@@ -254,6 +263,7 @@
 .signal-row-bottom {
     font-size: 11px;
     margin-top: 8px;
+    gap: 16px;
 }
 
 .signal-caption {
